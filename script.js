@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollProgress();
   initSimulatorSwitcher();
   initReportWizard();
-  initMapTracker();
+  // initMapTracker() is called lazily when the Map tab becomes visible
   initRewardsDashboard();
   initAuthorityDashboard();
   initImpactCounters();
@@ -109,6 +109,8 @@ function initScrollReveals() {
 }
 
 /* ===== SIMULATOR SWITCHER ===== */
+let mapTrackerInitialized = false;
+
 function initSimulatorSwitcher() {
   const navButtons = document.querySelectorAll('.sim-nav-btn');
   const screens = document.querySelectorAll('.sim-screen');
@@ -127,16 +129,16 @@ function initSimulatorSwitcher() {
         targetScreen.classList.add('active');
       }
 
-      // Leaflet needs a size refresh when its container becomes visible
+      // Leaflet: lazy init on first show, then just refresh size
       if (targetId === 'map-tracker') {
         setTimeout(() => {
-          if (leafletMap) {
-            leafletMap.invalidateSize();
-          } else {
-            // Lazy init if it wasn't ready at DOMContentLoaded
+          if (!mapTrackerInitialized) {
             initMapTracker();
+            mapTrackerInitialized = true;
+          } else if (leafletMap) {
+            leafletMap.invalidateSize();
           }
-        }, 50);
+        }, 80);
       }
     });
   });

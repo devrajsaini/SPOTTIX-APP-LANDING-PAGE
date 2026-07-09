@@ -411,13 +411,20 @@ h1, h2, h3, h4, .font-heading {
 .hero-title {
   font-size: clamp(2.5rem, 5.5vw, 4rem);
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.15;
   margin-bottom: 24px;
   letter-spacing: -0.03em;
 }
 
 .hero-title span {
   display: inline-block;
+}
+
+/* "Watch It Get Fixed." — solid green highlight */
+.hero-title-green {
+  display: block;
+  color: var(--emerald-hover);
+  text-shadow: 0 0 40px rgba(16, 185, 129, 0.35);
 }
 
 .hero-desc {
@@ -430,9 +437,70 @@ h1, h2, h3, h4, .font-heading {
 
 .hero-ctas {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
   margin-bottom: 48px;
+  align-items: center;
+}
+
+/* ===== HERO STORE BUTTONS ===== */
+.store-btn-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--text-primary);
+  padding: 11px 20px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all var(--transition-smooth);
+  min-width: 155px;
+}
+
+.store-btn-hero:hover {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.18);
+}
+
+.store-btn-hero svg {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.store-btn-hero-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.store-btn-hero-text span {
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.store-btn-hero-text strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Outline variant: App Store */
+.store-btn-hero-outline {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.store-btn-hero-outline:hover {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
 }
 
 .hero-stats {
@@ -479,12 +547,13 @@ h1, h2, h3, h4, .font-heading {
   z-index: 1;
 }
 
+/* ===== PHONE MOCKUP WRAPPER (image-based) ===== */
 .phone-mockup-wrapper {
   position: relative;
-  width: 290px;
-  height: 590px;
+  width: 320px;
 }
 
+/* Legacy canvas kept for other sections if needed */
 .phone-mockup-canvas {
   position: absolute;
   inset: 0;
@@ -496,6 +565,24 @@ h1, h2, h3, h4, .font-heading {
               inset 0 1px 0 rgba(255,255,255,0.08);
   overflow: hidden;
   padding: 12px;
+}
+
+/* ===== PHONE IMAGE FRAME ===== */
+.phone-img-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.6)) drop-shadow(0 0 40px rgba(16,185,129,0.2));
+  animation: phoneFloat 6s ease-in-out infinite alternate;
+}
+
+.phone-hero-img {
+  width: 100%;
+  max-width: 310px;
+  height: auto;
+  display: block;
+  border-radius: 36px;
+  object-fit: contain;
 }
 
 .phone-island {
@@ -675,9 +762,9 @@ h1, h2, h3, h4, .font-heading {
   color: var(--text-muted);
 }
 
-.float-card-1 { top: 60px; right: -110px; animation-delay: 0s; }
-.float-card-2 { top: 220px; left: -120px; animation-delay: 1.5s; }
-.float-card-3 { bottom: 120px; right: -120px; animation-delay: 3s; }
+.float-card-1 { top: 30px; right: -140px; animation-delay: 0s; }
+.float-card-2 { top: 45%; left: -150px; transform: translateY(-50%); animation-delay: 1.5s; }
+.float-card-3 { bottom: 60px; right: -140px; animation-delay: 3s; }
 
 /* ===== SECTION: APP INTERACTIVE SIMULATOR ===== */
 .simulator-container {
@@ -2815,6 +2902,10 @@ h1, h2, h3, h4, .font-heading {
     gap: 48px;
     text-align: center;
   }
+  .hero-badge {
+    margin-left: auto;
+    margin-right: auto;
+  }
   .hero-desc {
     margin-left: auto;
     margin-right: auto;
@@ -2828,6 +2919,12 @@ h1, h2, h3, h4, .font-heading {
   .hero-right {
     order: -1;
   }
+  .phone-mockup-wrapper {
+    width: 280px;
+  }
+  .float-card-1 { right: -100px; }
+  .float-card-2 { left: -110px; }
+  .float-card-3 { right: -100px; }
   .simulator-container {
     grid-template-columns: 1fr;
   }
@@ -2975,7 +3072,6 @@ h1, h2, h3, h4, .font-heading {
   
   .phone-mockup-wrapper {
     width: 260px;
-    height: 520px;
   }
   
   .float-card {
@@ -3243,6 +3339,11 @@ h1, h2, h3, h4, .font-heading {
 @keyframes arrowPulse {
   0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(16,185,129,0.3); }
   50%       { transform: scale(1.1); box-shadow: 0 0 30px rgba(16,185,129,0.5); }
+}
+
+@keyframes phoneFloat {
+  0%   { transform: translateY(0px) rotate(-1deg); }
+  100% { transform: translateY(-14px) rotate(1deg); }
 }
 
 /* ===== RESPONSIVE ===== */
