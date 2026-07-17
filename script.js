@@ -76,6 +76,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Animated Counter
 function animateCounter(element, target, duration = 2000) {
+  // Check for reduced motion preference
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    element.textContent = formatNumber(target);
+    return;
+  }
+  
   const start = 0;
   const increment = target / (duration / 16);
   let current = start;
@@ -157,37 +163,39 @@ tabBtns.forEach(btn => {
 });
 
 // FAQ Accordion
-const faqItems = document.querySelectorAll('.faq-item');
+const faqItems = document.querySelectorAll('.faq-premium-item');
 
 faqItems.forEach(item => {
-  const question = item.querySelector('.faq-question');
-  const answerPanel = item.querySelector('.faq-answer');
+  const button = item.querySelector('.faq-question-btn');
+  const panel = item.querySelector('.faq-answer-panel');
   
-  question.addEventListener('click', () => {
-    const isActive = item.classList.contains('active');
-    
-    // Close all FAQ items
-    faqItems.forEach(faq => {
-      faq.classList.remove('active');
-      const panel = faq.querySelector('.faq-answer');
-      if (panel) {
-        panel.style.maxHeight = null;
-      }
-      const qBtn = faq.querySelector('.faq-question');
-      if (qBtn) {
-        qBtn.setAttribute('aria-expanded', 'false');
+  if (button && panel) {
+    button.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+      
+      // Close all FAQ items
+      faqItems.forEach(faq => {
+        faq.classList.remove('active');
+        const p = faq.querySelector('.faq-answer-panel');
+        if (p) {
+          p.style.maxHeight = null;
+        }
+        const btn = faq.querySelector('.faq-question-btn');
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+      
+      // Open clicked item if it wasn't active
+      if (!isActive) {
+        item.classList.add('active');
+        if (panel) {
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+        button.setAttribute('aria-expanded', 'true');
       }
     });
-    
-    // Open clicked item if it wasn't active
-    if (!isActive) {
-      item.classList.add('active');
-      if (answerPanel) {
-        answerPanel.style.maxHeight = answerPanel.scrollHeight + 'px';
-      }
-      question.setAttribute('aria-expanded', 'true');
-    }
-  });
+  }
 });
 
 // Bengaluru Map with Leaflet
@@ -513,6 +521,72 @@ if ('serviceWorker' in navigator) {
     //   .catch(err => console.log('Service Worker registration failed'));
   });
 }
+
+// Before/After Image Comparison Slider
+document.addEventListener('DOMContentLoaded', () => {
+  const slider = document.getElementById('imageComparisonSlider');
+  const handle = document.getElementById('sliderHandle');
+  const overlay = document.getElementById('beforeImageOverlay');
+  
+  if (slider && handle && overlay) {
+    let isDragging = false;
+    
+    function updateSlider(x) {
+      const rect = slider.getBoundingClientRect();
+      const offsetX = x - rect.left;
+      const percentage = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
+      
+      overlay.style.width = percentage + '%';
+      handle.style.left = percentage + '%';
+      handle.setAttribute('aria-valuenow', Math.round(percentage));
+    }
+    
+    // Mouse events
+    slider.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      updateSlider(e.clientX);
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) updateSlider(e.clientX);
+    });
+    
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+    
+    // Touch events
+    slider.addEventListener('touchstart', (e) => {
+      isDragging = true;
+    });
+    
+    slider.addEventListener('touchmove', (e) => {
+      if (isDragging) updateSlider(e.touches[0].clientX);
+    });
+    
+    slider.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+    
+    // Keyboard events
+    handle.addEventListener('keydown', (e) => {
+      const currentValue = parseInt(handle.getAttribute('aria-valuenow') || '50');
+      if (e.key === 'ArrowLeft') {
+        updateSlider(((currentValue - 5) / 100) * slider.offsetWidth + slider.getBoundingClientRect().left);
+      } else if (e.key === 'ArrowRight') {
+        updateSlider(((currentValue + 5) / 100) * slider.offsetWidth + slider.getBoundingClientRect().left);
+      }
+    });
+    
+    // Initialize handle with ARIA attributes
+    handle.setAttribute('role', 'slider');
+    handle.setAttribute('aria-label', 'Image comparison slider');
+    handle.setAttribute('aria-valuemin', '0');
+    handle.setAttribute('aria-valuemax', '100');
+    handle.setAttribute('aria-valuenow', '50');
+    handle.setAttribute('tabindex', '0');
+  }
+});
 
 // Export functions for testing (if needed)
 if (typeof module !== 'undefined' && module.exports) {
