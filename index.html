@@ -3,1259 +3,1224 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spottix - Report. Track. Transform Bengaluru</title>
-  <meta name="description" content="Spottix makes it easy to report civic issues, track real-time updates and help build a cleaner, greener Bengaluru">
+  <title>Spottix - Report, Track and Transform Bengaluru</title>
+  <meta name="description" content="Spottix makes it easy to report civic issues, track real-time cleanup progress and help build a cleaner, greener Bengaluru.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<!-- Premium Sticky Navbar -->
-<nav class="navbar" id="navbar">
-  <div class="container">
-    <div class="nav-wrapper">
-      <a href="#home" class="logo">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-          <circle cx="12" cy="10" r="3"/>
-        </svg>
-        <span>Spottix</span>
-      </a>
-      
-      <ul class="nav-menu" id="navMenu">
-        <li><a href="#home" class="nav-link active">Home</a></li>
-        <li><a href="#features" class="nav-link">Features</a></li>
-        <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
-        <li><a href="#in-action" class="nav-link">In Action</a></li>
-        <li><a href="#live-map" class="nav-link">Live Map</a></li>
-        <li><a href="#community" class="nav-link">Community</a></li>
-        <li><a href="#faq" class="nav-link">FAQ</a></li>
-      </ul>
-      
-      <div class="nav-actions">
-        <a href="https://play.google.com/store/apps/details?id=com.spottix.app" target="_blank" class="btn-download">Download App</a>
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+  <!-- Premium Sticky Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="#home" class="logo">
+          <!-- Spottix Logo SVG -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span>Spottix</span>
+        </a>
+        
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="#in-action" class="nav-link">In Action</a></li>
+          <li><a href="#live-map" class="nav-link">Live Map</a></li>
+          <li><a href="#community" class="nav-link">Community</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+        </ul>
+        
+        <div class="nav-actions">
+          <a href="https://play.google.com/store/apps/details?id=com.spottix.app" target="_blank" class="btn-nav-download">Download App</a>
+          <button class="hamburger" id="hamburger" aria-label="Toggle Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- Mobile Menu -->
-<div class="mobile-menu" id="mobileMenu">
-  <div class="mobile-menu-content">
-    <a href="#home" class="mobile-link">Home</a>
-    <a href="#features" class="mobile-link">Features</a>
-    <a href="#how-it-works" class="mobile-link">How It Works</a>
-    <a href="#in-action" class="mobile-link">In Action</a>
-    <a href="#live-map" class="mobile-link">Live Map</a>
-    <a href="#community" class="mobile-link">Community</a>
-    <a href="#faq" class="mobile-link">FAQ</a>
-    <a href="https://play.google.com/store/apps/details?id=com.spottix.app" target="_blank" class="btn-download mobile">Download App</a>
+  <!-- Mobile Navigation Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-content">
+      <a href="#home" class="mobile-link">Home</a>
+      <a href="#features" class="mobile-link">Features</a>
+      <a href="#how-it-works" class="mobile-link">How It Works</a>
+      <a href="#in-action" class="mobile-link">In Action</a>
+      <a href="#live-map" class="mobile-link">Live Map</a>
+      <a href="#community" class="mobile-link">Community</a>
+      <a href="#faq" class="mobile-link">FAQ</a>
+      <a href="https://play.google.com/store/apps/details?id=com.spottix.app" target="_blank" class="btn-nav-download mobile">Download App</a>
+    </div>
   </div>
-</div>
 
-<!-- Premium Hero Section -->
-<section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="container">
-    <div class="hero-content">
-      <div class="hero-left">
-        <h1 class="hero-title">
-          Report. Track.<br>
-          <span class="gradient-text">Transform.</span>
-        </h1>
-        
-        <p class="hero-description">
-          Spottix makes it easy to report civic issues, track real-time updates and help build a cleaner, greener Bengaluru.
-        </p>
-        
-        <div class="hero-buttons">
-          <a href="#live-map" class="btn-primary">Report Now</a>
-          <a href="#live-map" class="btn-secondary">View Live Map</a>
+  <!-- Premium Hero Section -->
+  <section class="hero" id="home">
+    <div class="radial-glow-top"></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text-content">
+          <div class="hero-badge">
+            <img src="./assets/qr_code_real.png" alt="Users">
+            <span>Trusted by 1000+ communities across Bengaluru</span>
+          </div>
+          <h1 class="hero-title">
+            Report. Track.<br>
+            <span class="gradient-text">Transform.</span>
+          </h1>
+          <p class="hero-description">
+            Report civic issues, track real-time cleanup progress and help build a cleaner, greener Bengaluru.
+          </p>
+          <div class="hero-cta">
+            <a href="#live-map" class="btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              Report Now
+            </a>
+            <a href="#live-map" class="btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                <line x1="8" y1="2" x2="8" y2="18"/>
+                <line x1="16" y1="6" x2="16" y2="22"/>
+              </svg>
+              View Live Map
+            </a>
+          </div>
+          <div class="hero-apps">
+            <span class="hero-apps-label">App Available For</span>
+            <!-- Google Play Button -->
+            <a href="https://play.google.com/store/apps/details?id=com.spottix.app" target="_blank" class="store-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 010 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.802 8.99l-2.303 2.303-8.635-8.635z"/>
+              </svg>
+              <div>
+                <span>Get It On</span>
+                <strong>Google Play</strong>
+              </div>
+            </a>
+            <!-- App Store Button -->
+            <a href="#" class="store-btn disabled">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.37 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+              </svg>
+              <div>
+                <span>Download on the</span>
+                <strong>App Store</strong>
+              </div>
+            </a>
+          </div>
         </div>
         
-        <div class="hero-features">
-          <div class="hero-feature">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
-            <span>Easy Reporting</span>
+        <div class="hero-visual-enhanced">
+          <div class="phone-mockup-frame hero-phone-straight">
+            <div class="phone-notch"><div class="phone-notch-camera"></div><div class="phone-notch-speaker"></div></div>
+            <div class="phone-status-bar">
+              <span>9:41</span>
+              <div class="phone-status-right">📶 🔋</div>
+            </div>
+            <div class="phone-inner-screen">
+              <!-- App Dashboard UI -->
+              <div class="hero-app-dashboard">
+                <div class="hero-app-topbar">
+                  <div class="hero-app-logo">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#8cff3f"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    <span>Spottix</span>
+                  </div>
+                  <div style="display:flex;gap:8px;font-size:12px">
+                    <span>&#128269;</span><span>&#128276;</span>
+                  </div>
+                </div>
+                <div class="hero-app-banner">
+                  <p style="font-size:10px;font-weight:700;color:#fff;margin:0">Together, we can build<br><span style="color:#8cff3f">a cleaner Bengaluru.</span></p>
+                  <p style="font-size:8px;color:#a0cfa0;margin:4px 0 0">Your report today, a better tomorrow.</p>
+                </div>
+                <div class="hero-app-report-btn">
+                  <span>Report an Issue</span>
+                  <span style="font-size:8px;color:#a0b0a0">Click a photo. Add details.</span>
+                  <span style="font-size:12px;color:#8cff3f">&#128247;</span>
+                </div>
+                <div class="hero-app-stats">
+                  <div class="hero-app-stat"><span class="hero-app-stat-val">10K+</span><span>Reports</span></div>
+                  <div class="hero-app-stat"><span class="hero-app-stat-val">5K+</span><span>Users</span></div>
+                  <div class="hero-app-stat"><span class="hero-app-stat-val">95%</span><span>Resolved</span></div>
+                  <div class="hero-app-stat"><span class="hero-app-stat-val">50+</span><span>Wards</span></div>
+                </div>
+                <div style="padding:0 8px;font-size:9px;color:#a0b0a0;display:flex;justify-content:space-between;margin-top:8px">
+                  <span style="font-weight:600;color:#e0e0e0">Recent Activity</span>
+                  <span style="color:#8cff3f">View all</span>
+                </div>
+                <div class="hero-activity-list">
+                  <div class="hero-activity-item">
+                    <div class="hero-activity-thumb" style="background:#1a2b1a">&#128704;</div>
+                    <div class="hero-activity-info">
+                      <span class="hero-activity-name">Sewage Overflow</span>
+                      <span class="hero-activity-loc">HSR Layout, Bengaluru</span>
+                    </div>
+                    <span class="hero-activity-badge resolved">Resolved</span>
+                    <span class="hero-activity-time">2h</span>
+                  </div>
+                  <div class="hero-activity-item">
+                    <div class="hero-activity-thumb" style="background:#2b1a1a">&#128272;</div>
+                    <div class="hero-activity-info">
+                      <span class="hero-activity-name">Street Light Issue</span>
+                      <span class="hero-activity-loc">Koramangala, Bengaluru</span>
+                    </div>
+                    <span class="hero-activity-badge progress">In Progress</span>
+                    <span class="hero-activity-time">5h</span>
+                  </div>
+                  <div class="hero-activity-item">
+                    <div class="hero-activity-thumb" style="background:#1a1a2b">&#128465;</div>
+                    <div class="hero-activity-info">
+                      <span class="hero-activity-name">Garbage Dumping</span>
+                      <span class="hero-activity-loc">Jayanagar, Bengaluru</span>
+                    </div>
+                    <span class="hero-activity-badge new-badge">New</span>
+                    <span class="hero-activity-time">1h</span>
+                  </div>
+                </div>
+                <div class="hero-app-navbar">
+                  <div class="hero-nav-item active-nav"><span>&#127968;</span><span>Home</span></div>
+                  <div class="hero-nav-item"><span>&#127758;</span><span>Map</span></div>
+                  <div class="hero-nav-item report-nav"><span style="font-size:14px">&#128247;</span><span>Report</span></div>
+                  <div class="hero-nav-item"><span>&#127942;</span><span>Ranks</span></div>
+                  <div class="hero-nav-item"><span>&#128100;</span><span>Account</span></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="hero-feature">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-            <span>Live Tracking</span>
+          
+          <!-- Floating UI cards -->
+          <div class="floating-ui-card card-resolved hover-float">
+            <div class="icon-circle bg-success">✓</div>
+            <div>
+              <p class="floating-ui-title">Garbage Cleared</p>
+              <span class="floating-ui-meta">Ward 196 • Resolved</span>
+            </div>
           </div>
-          <div class="hero-feature">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-            <span>Live Map</span>
+          
+          <div class="floating-ui-card card-alert hover-float">
+            <div class="icon-circle bg-warning animate-pulse">⚠</div>
+            <div>
+              <p class="floating-ui-title">Sewage Overflow</p>
+              <span class="floating-ui-meta">Ward 4 • 24 Likes</span>
+            </div>
           </div>
-          <div class="hero-feature">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+          <div class="floating-ui-card card-ward hover-float">
+            <div class="icon-circle bg-info">📍</div>
+            <div>
+              <p class="floating-ui-title">Jayanagar (Ward 78)</p>
+              <span class="floating-ui-meta">94% Resolved Status</span>
+            </div>
+          </div>
+
+          <!-- Feature badges / small labels -->
+          <span class="hero-feature-label label-1">⚡ Easy Reporting</span>
+          <span class="hero-feature-label label-2">⏱️ Live Tracking</span>
+          <span class="hero-feature-label label-3">🗺️ Live Map</span>
+          <span class="hero-feature-label label-4">👥 Community Power</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trusted Partners and Impact Section -->
+  <section class="partners-impact">
+    <div class="container">
+      <h3 class="partners-title">Trusted by 1000+ communities across the city</h3>
+      <div class="partners-strip">
+        <div class="partner-logo">⚙️ EcoGrid</div>
+        <div class="partner-logo">🌍 CleanSphere</div>
+        <div class="partner-logo">🔁 UrbanLoop</div>
+        <div class="partner-logo">📈 GreenPulse</div>
+        <div class="partner-logo">🌊 CivicFlow</div>
+        <div class="partner-logo">♻️ WasteSync</div>
+      </div>
+      
+      <div class="section-header">
+        <h2 class="section-title">Building Cleaner Neighbourhoods Through Faster Civic Reporting</h2>
+      </div>
+      
+      <div class="impact-grid">
+        <!-- Reports Submitted -->
+        <div class="impact-card fade-up">
+          <div class="impact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <div class="impact-counter impact-value" data-target="10000">0</div>
+          <div class="impact-card-label">Reports Submitted</div>
+        </div>
+        
+        <!-- Active Users -->
+        <div class="impact-card fade-up">
+          <div class="impact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
               <circle cx="9" cy="7" r="4"/>
               <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
               <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
-            <span>Community Power</span>
           </div>
+          <div class="impact-counter impact-value" data-target="5000">0</div>
+          <div class="impact-card-label">Active Users</div>
         </div>
-      </div>
-      
-      <div class="hero-right">
-        <div class="phone-mockup-wrapper">
-          <div class="phone-glow"></div>
-          <img src="./assets/spottix_phone_mockup.png" alt="Spottix App Interface" class="phone-mockup">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Problem Section -->
-<section class="problems" id="problems">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Why Civic Issues Stay Unresolved</h2>
-    </div>
-    
-    <div class="problems-grid">
-      <div class="problem-card fade-up">
-        <div class="problem-number">01</div>
-        <div class="problem-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 8v4"/>
-            <path d="M12 16h.01"/>
-          </svg>
-        </div>
-        <h3 class="problem-title">Why Issues Linger</h3>
-        <p class="problem-description">Traditional civic reporting provides no tracking or proper feedback.</p>
-        <div class="problem-solution">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-          <span>Live Tracking</span>
-        </div>
-      </div>
-      
-      <div class="problem-card fade-up">
-        <div class="problem-number">02</div>
-        <div class="problem-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-        </div>
-        <h3 class="problem-title">No Accountability</h3>
-        <p class="problem-description">Privately reported problems often lack visibility and public pressure.</p>
-        <div class="problem-solution">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-          <span>Public Feed</span>
-        </div>
-      </div>
-      
-      <div class="problem-card fade-up">
-        <div class="problem-number">03</div>
-        <div class="problem-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-            <line x1="9" y1="9" x2="15" y2="15"/>
-            <line x1="15" y1="9" x2="9" y2="15"/>
-          </svg>
-        </div>
-        <h3 class="problem-title">Bureaucratic Gap</h3>
-        <p class="problem-description">Ward officials need real-time, geotagged proof from local citizens.</p>
-        <div class="problem-solution">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-          <span>Geo-tagged Proof</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Change in 4 Simple Steps -->
-<section class="steps" id="how-it-works">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-badge">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-        </svg>
-        <span>Simple Steps, Big Impact</span>
-      </div>
-      <h2 class="section-title">Change in 4 Simple Steps</h2>
-      <p class="section-description">How Spottix turns citizen observations into local ward-level action.</p>
-    </div>
-    
-    <div class="steps-container">
-      <div class="step-card fade-up">
-        <div class="step-icon-wrapper">
-          <div class="step-number">1</div>
-          <div class="step-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="m21 21-4.35-4.35"/>
-            </svg>
-          </div>
-        </div>
-        <h3 class="step-title">Spot an Issue</h3>
-        <p class="step-description">Spot garbage, overflowing sewage, potholes, water leaks or broken streetlights.</p>
-        <div class="step-image">
-          <img src="./assets/before_garbage_pile.png" alt="Garbage issue" loading="lazy">
-        </div>
-      </div>
-      
-      <div class="step-connector"></div>
-      
-      <div class="step-card fade-up">
-        <div class="step-icon-wrapper">
-          <div class="step-number">2</div>
-          <div class="step-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-              <circle cx="12" cy="13" r="4"/>
-            </svg>
-          </div>
-        </div>
-        <h3 class="step-title">Snap & Tag</h3>
-        <p class="step-description">Take a photo or video. Spottix automatically captures the GPS location and category.</p>
-        <div class="step-tags">
-          <span class="tag">Photo</span>
-          <span class="tag">Auto Location</span>
-        </div>
-      </div>
-      
-      <div class="step-connector"></div>
-      
-      <div class="step-card fade-up">
-        <div class="step-icon-wrapper">
-          <div class="step-number">3</div>
-          <div class="step-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        
+        <!-- Reports Resolved -->
+        <div class="impact-card fade-up">
+          <div class="impact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
               <polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
           </div>
-        </div>
-        <h3 class="step-title">Track Status</h3>
-        <p class="step-description">Watch the status change live:</p>
-        <div class="status-flow">
-          <span class="status-badge new">NEW</span>
-          <span class="arrow">→</span>
-          <span class="status-badge active">ACTIVE</span>
-          <span class="arrow">→</span>
-          <span class="status-badge verified">VERIFIED</span>
-          <span class="arrow">→</span>
-          <span class="status-badge progress">IN PROGRESS</span>
-          <span class="arrow">→</span>
-          <span class="status-badge resolved">RESOLVED</span>
-        </div>
-      </div>
-      
-      <div class="step-connector"></div>
-      
-      <div class="step-card fade-up">
-        <div class="step-icon-wrapper">
-          <div class="step-number">4</div>
-          <div class="step-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
-          </div>
-        </div>
-        <h3 class="step-title">Get Notified</h3>
-        <p class="step-description">Receive an instant notification when the ward officer uploads verification proof.</p>
-        <div class="step-image">
-          <img src="./assets/after_clean_road.png" alt="Resolved issue" loading="lazy">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- How Spottix Works -->
-<section class="how-works">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">How Spottix Works</h2>
-    </div>
-    
-    <div class="works-grid">
-      <div class="work-card fade-up">
-        <div class="work-icon">
-          <div class="progress-ring">
-            <svg width="120" height="120">
-              <circle cx="60" cy="60" r="54" class="progress-ring-circle"/>
-            </svg>
-          </div>
-          <div class="work-icon-inner">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-              <circle cx="12" cy="13" r="4"/>
-            </svg>
-          </div>
-        </div>
-        <h3 class="work-title">Report</h3>
-        <p class="work-subtitle">See it. Snap it. Report it.</p>
-        <div class="work-features">
-          <div class="work-feature">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <span>Add Photo</span>
-          </div>
-          <div class="work-feature">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <span>Auto Location</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="work-card fade-up">
-        <div class="work-icon">
-          <div class="progress-ring">
-            <svg width="120" height="120">
-              <circle cx="60" cy="60" r="54" class="progress-ring-circle"/>
-            </svg>
-          </div>
-          <div class="work-icon-inner">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-          </div>
-        </div>
-        <h3 class="work-title">Track</h3>
-        <p class="work-subtitle">Stay informed, always.</p>
-        <div class="work-features">
-          <div class="work-feature">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <span>Live Updates</span>
-          </div>
-          <div class="work-feature">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <span>Real-Time Status</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="work-card fade-up">
-        <div class="work-icon">
-          <div class="progress-ring">
-            <svg width="120" height="120">
-              <circle cx="60" cy="60" r="54" class="progress-ring-circle"/>
-            </svg>
-          </div>
-          <div class="work-icon-inner">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-              <polyline points="22 4 12 14.01 9 11.01"/>
-            </svg>
-          </div>
-        </div>
-        <h3 class="work-title">Clean</h3>
-        <p class="work-subtitle">Together, we make it happen.</p>
-        <div class="work-features">
-          <div class="work-feature">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <span>Action Taken</span>
-          </div>
-          <div class="work-feature">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <span>Area Cleaned</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Features Section -->
-<section class="features" id="features">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Designed for Civic Action</h2>
-    </div>
-    
-    <div class="features-grid">
-      <div class="feature-card fade-up">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Instant Reporting</h3>
-        <p class="feature-description">Report civic issues in seconds with photo proof and GPS location.</p>
-      </div>
-      
-      <div class="feature-card fade-up">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-            <line x1="7" y1="7" x2="7.01" y2="7"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Smart Category Tagging</h3>
-        <p class="feature-description">Automatically categorize issues: garbage, sewage, potholes, water leaks, streetlights.</p>
-      </div>
-      
-      <div class="feature-card fade-up">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Live Status Tracking</h3>
-        <p class="feature-description">Track your report from NEW to RESOLVED in real-time.</p>
-      </div>
-      
-      <div class="feature-card fade-up">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Location-Based Discovery</h3>
-        <p class="feature-description">See all civic issues reported near your location on an interactive map.</p>
-      </div>
-      
-      <div class="feature-card fade-up">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7"/>
-            <rect x="14" y="3" width="7" height="7"/>
-            <rect x="14" y="14" width="7" height="7"/>
-            <rect x="3" y="14" width="7" height="7"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Ward-Level Resolution Map</h3>
-        <p class="feature-description">View ward-wise performance with color-coded resolution rates.</p>
-      </div>
-      
-      <div class="feature-card fade-up">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Community Verification</h3>
-        <p class="feature-description">Upvote, comment and verify issues in your neighborhood.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Real Impact Section -->
-<section class="impact" id="impact">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-badge">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-        </svg>
-        <span>Real Impact. Real Change.</span>
-      </div>
-      <h2 class="section-title">See the Transformation</h2>
-    </div>
-    
-    <div class="comparison-container">
-      <div class="comparison-wrapper">
-        <div class="comparison-side before">
-          <div class="comparison-badge before-badge">BEFORE</div>
-          <img src="./assets/before_garbage_pile.png" alt="Before - Garbage pile" loading="lazy">
-          <div class="comparison-labels">
-            <div class="comparison-label">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="15" y1="9" x2="9" y2="15"/>
-                <line x1="9" y1="9" x2="15" y2="15"/>
-              </svg>
-              <span>Unhygienic</span>
-            </div>
-            <div class="comparison-label">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="15" y1="9" x2="9" y2="15"/>
-                <line x1="9" y1="9" x2="15" y2="15"/>
-              </svg>
-              <span>Polluted Area</span>
-            </div>
-            <div class="comparison-label">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="15" y1="9" x2="9" y2="15"/>
-                <line x1="9" y1="9" x2="15" y2="15"/>
-              </svg>
-              <span>Negative Impact</span>
-            </div>
-          </div>
+          <div class="impact-counter impact-value" data-target="95">0</div>
+          <div class="impact-card-label">% Reports Resolved</div>
         </div>
         
-        <div class="comparison-divider">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </div>
-        
-        <div class="comparison-side after">
-          <div class="comparison-badge after-badge">AFTER</div>
-          <img src="./assets/after_clean_road.png" alt="After - Clean road" loading="lazy">
-          <div class="comparison-labels">
-            <div class="comparison-label">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
-              <span>Clean and Safe</span>
-            </div>
-            <div class="comparison-label">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
-              <span>Pollution Free</span>
-            </div>
-            <div class="comparison-label">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
-              <span>Positive Impact</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="impact-stats">
-      <div class="impact-stat fade-up">
-        <div class="impact-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-            <polyline points="10 9 9 9 8 9"/>
-          </svg>
-        </div>
-        <div class="impact-value" data-target="10000">0</div>
-        <div class="impact-label">Reports Submitted</div>
-      </div>
-      
-      <div class="impact-stat fade-up">
-        <div class="impact-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <div class="impact-value" data-target="5000">0</div>
-        <div class="impact-label">Active Users</div>
-      </div>
-      
-      <div class="impact-stat fade-up">
-        <div class="impact-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
-        </div>
-        <div class="impact-value" data-target="95">0</div>
-        <div class="impact-label">% Reports Resolved</div>
-      </div>
-      
-      <div class="impact-stat fade-up">
-        <div class="impact-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-        </div>
-        <div class="impact-value" data-target="50">0</div>
-        <div class="impact-label">Wards Covered</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Spottix App in Action -->
-<section class="app-showcase" id="in-action">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-badge">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-          <line x1="12" y1="18" x2="12.01" y2="18"/>
-        </svg>
-        <span>Live. Local. Impactful.</span>
-      </div>
-      <h2 class="section-title">Spottix App in Action</h2>
-      <p class="section-description">See how easy it is to report, track and help make Bengaluru cleaner.</p>
-    </div>
-    
-    <div class="showcase-slider">
-      <div class="showcase-track" id="showcaseTrack">
-        <div class="showcase-item fade-up">
-          <div class="phone-frame">
-            <img src="./assets/spottix_phone_mockup.png" alt="Live Feed" loading="lazy">
-          </div>
-          <div class="showcase-info">
-            <div class="showcase-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
-                <polyline points="17 2 12 7 7 2"/>
-              </svg>
-            </div>
-            <h3 class="showcase-title">Live Feed</h3>
-            <p class="showcase-description">Real-time community reports from your ward and nearby areas.</p>
-          </div>
-        </div>
-        
-        <div class="showcase-item fade-up">
-          <div class="phone-frame">
-            <img src="./assets/spottix_phone_mockup.png" alt="Verified Issue" loading="lazy">
-          </div>
-          <div class="showcase-info">
-            <div class="showcase-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
-            </div>
-            <h3 class="showcase-title">Verified Road Issue</h3>
-            <p class="showcase-description">Users and ward officers with photos and accurate location.</p>
-          </div>
-        </div>
-        
-        <div class="showcase-item fade-up">
-          <div class="phone-frame">
-            <img src="./assets/after_working_streetlight.png" alt="Street Light Status" loading="lazy">
-          </div>
-          <div class="showcase-info">
-            <div class="showcase-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 2v6"/>
-                <path d="M15 2v6"/>
-                <path d="M12 17v5"/>
-                <path d="M5 8h14"/>
-                <path d="M6 11h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z"/>
-              </svg>
-            </div>
-            <h3 class="showcase-title">Street Light Resolution Status</h3>
-            <p class="showcase-description">Track live status of your report in real-time.</p>
-          </div>
-        </div>
-        
-        <div class="showcase-item fade-up">
-          <div class="phone-frame">
-            <img src="./assets/spottix_phone_mockup.png" alt="Category Selection" loading="lazy">
-          </div>
-          <div class="showcase-info">
-            <div class="showcase-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7"/>
-                <rect x="14" y="3" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/>
-                <rect x="3" y="14" width="7" height="7"/>
-              </svg>
-            </div>
-            <h3 class="showcase-title">Smart Category Selection</h3>
-            <p class="showcase-description">Easily choose the issue category for accurate reporting.</p>
-          </div>
-        </div>
-        
-        <div class="showcase-item fade-up">
-          <div class="phone-frame">
-            <img src="./assets/spottix_phone_mockup.png" alt="Ward Heatmap" loading="lazy">
-          </div>
-          <div class="showcase-info">
-            <div class="showcase-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
-            </div>
-            <h3 class="showcase-title">Ward Heatmap & Navigation</h3>
-            <p class="showcase-description">Explore ward-wise performance with interactive heatmap.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Community and Gamification -->
-<section class="community" id="community">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Turning Civic Duty Into Friendly Competition</h2>
-      <p class="section-description">Earn badges, climb leaderboards and be recognized as a civic champion.</p>
-    </div>
-    
-    <div class="gamification-grid">
-      <div class="badges-section fade-up">
-        <h3 class="subsection-title">Earn Badges & Ranks</h3>
-        <div class="badges-grid">
-          <div class="badge-item">
-            <div class="badge-icon rookie">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-              </svg>
-            </div>
-            <h4 class="badge-name">Civic Rookie</h4>
-            <p class="badge-requirement">1-5 Reports</p>
-          </div>
-          
-          <div class="badge-item">
-            <div class="badge-icon active">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-              </svg>
-            </div>
-            <h4 class="badge-name">Active Citizen</h4>
-            <p class="badge-requirement">6-20 Reports</p>
-          </div>
-          
-          <div class="badge-item">
-            <div class="badge-icon champion">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
-                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
-                <path d="M4 22h16"/>
-                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
-                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
-                <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>
-              </svg>
-            </div>
-            <h4 class="badge-name">Ward Champion</h4>
-            <p class="badge-requirement">21-50 Reports</p>
-          </div>
-          
-          <div class="badge-item">
-            <div class="badge-icon legend">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
-                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
-                <path d="M4 22h16"/>
-                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
-                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
-                <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>
-              </svg>
-            </div>
-            <h4 class="badge-name">Ward Legend</h4>
-            <p class="badge-requirement">50+ Reports</p>
-          </div>
-        </div>
-        
-        <div class="points-info">
-          <div class="point-item">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <span>Contribution Points</span>
-          </div>
-          <div class="point-item">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <span>Verification Rewards</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="leaderboard-section fade-up">
-        <div class="leaderboard-tabs">
-          <button class="tab-btn active" data-tab="citizen">Citizen Leaderboard</button>
-          <button class="tab-btn" data-tab="ward">Ward Leaderboard</button>
-        </div>
-        
-        <div class="tab-content active" id="citizen-tab">
-          <div class="leaderboard-list">
-            <div class="leaderboard-item rank-1">
-              <div class="rank">1</div>
-              <div class="user-info">
-                <div class="user-avatar">RK</div>
-                <div class="user-details">
-                  <div class="user-name">Rakesh Kumar</div>
-                  <div class="user-ward">Ward 186</div>
-                </div>
-              </div>
-              <div class="user-points">2,450</div>
-            </div>
-            
-            <div class="leaderboard-item rank-2">
-              <div class="rank">2</div>
-              <div class="user-info">
-                <div class="user-avatar">PS</div>
-                <div class="user-details">
-                  <div class="user-name">Priya Sharma</div>
-                  <div class="user-ward">Ward 154</div>
-                </div>
-              </div>
-              <div class="user-points">2,120</div>
-            </div>
-            
-            <div class="leaderboard-item rank-3">
-              <div class="rank">3</div>
-              <div class="user-info">
-                <div class="user-avatar">AM</div>
-                <div class="user-details">
-                  <div class="user-name">Arjun Mehta</div>
-                  <div class="user-ward">Ward 78</div>
-                </div>
-              </div>
-              <div class="user-points">1,980</div>
-            </div>
-            
-            <div class="leaderboard-item">
-              <div class="rank">4</div>
-              <div class="user-info">
-                <div class="user-avatar">SN</div>
-                <div class="user-details">
-                  <div class="user-name">Sneha Nair</div>
-                  <div class="user-ward">Ward 92</div>
-                </div>
-              </div>
-              <div class="user-points">1,765</div>
-            </div>
-            
-            <div class="leaderboard-item">
-              <div class="rank">5</div>
-              <div class="user-info">
-                <div class="user-avatar">VG</div>
-                <div class="user-details">
-                  <div class="user-name">Vikram Gupta</div>
-                  <div class="user-ward">Ward 110</div>
-                </div>
-              </div>
-              <div class="user-points">1,540</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="tab-content" id="ward-tab">
-          <div class="leaderboard-list">
-            <div class="leaderboard-item rank-1">
-              <div class="rank">1</div>
-              <div class="ward-info">
-                <div class="ward-name">Ward 186 - Koramangala</div>
-                <div class="ward-stats">432 Reports • 98% Resolved</div>
-              </div>
-            </div>
-            
-            <div class="leaderboard-item rank-2">
-              <div class="rank">2</div>
-              <div class="ward-info">
-                <div class="ward-name">Ward 154 - Indiranagar</div>
-                <div class="ward-stats">398 Reports • 96% Resolved</div>
-              </div>
-            </div>
-            
-            <div class="leaderboard-item rank-3">
-              <div class="rank">3</div>
-              <div class="ward-info">
-                <div class="ward-name">Ward 78 - Jayanagar</div>
-                <div class="ward-stats">375 Reports • 94% Resolved</div>
-              </div>
-            </div>
-            
-            <div class="leaderboard-item">
-              <div class="rank">4</div>
-              <div class="ward-info">
-                <div class="ward-name">Ward 92 - Whitefield</div>
-                <div class="ward-stats">356 Reports • 92% Resolved</div>
-              </div>
-            </div>
-            
-            <div class="leaderboard-item">
-              <div class="rank">5</div>
-              <div class="ward-info">
-                <div class="ward-name">Ward 110 - HSR Layout</div>
-                <div class="ward-stats">341 Reports • 91% Resolved</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Interactive Bengaluru Map -->
-<section class="map-section" id="live-map">
-  <div class="container-fluid">
-    <div class="section-header">
-      <h2 class="section-title">Reports From All Over Bengaluru</h2>
-      <p class="section-description">Explore real-time community reports and track cleaner neighbourhoods across Bengaluru.</p>
-    </div>
-    
-    <div class="map-stats-top">
-      <div class="map-stat-card">
-        <div class="map-stat-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-          </svg>
-        </div>
-        <div class="map-stat-value">10K+</div>
-        <div class="map-stat-label">Reports Submitted</div>
-      </div>
-      
-      <div class="map-stat-card">
-        <div class="map-stat-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <div class="map-stat-value">5K+</div>
-        <div class="map-stat-label">Active Users</div>
-      </div>
-      
-      <div class="map-stat-card">
-        <div class="map-stat-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
-        </div>
-        <div class="map-stat-value">95%</div>
-        <div class="map-stat-label">Reports Resolved</div>
-      </div>
-      
-      <div class="map-stat-card">
-        <div class="map-stat-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-        </div>
-        <div class="map-stat-value">50+</div>
-        <div class="map-stat-label">Wards Covered</div>
-      </div>
-    </div>
-    
-    <div class="map-container-wrapper">
-      <div class="map-wrapper">
-        <div id="bengaluruMap" class="bengaluru-map"></div>
-        
-        <div class="map-legend">
-          <div class="legend-title">Resolution Rate</div>
-          <div class="legend-item">
-            <span class="legend-dot green"></span>
-            <span>> 80% Resolved</span>
-          </div>
-          <div class="legend-item">
-            <span class="legend-dot amber"></span>
-            <span>60-80% Resolved</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="ward-statistics" id="wardStats">
-        <div class="stats-header">
-          <h3>Ward Statistics</h3>
-          <span class="status-badge green">Green (Excellent)</span>
-        </div>
-        
-        <div class="stats-content">
-          <div class="stat-location">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <!-- Wards Covered -->
+        <div class="impact-card fade-up">
+          <div class="impact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
               <circle cx="12" cy="10" r="3"/>
             </svg>
-            <div>
-              <div class="ward-name">Koramangala (Ward 186)</div>
-              <div class="ward-location">Koramangala, Bengaluru</div>
-            </div>
           </div>
-          
-          <div class="stat-progress">
-            <div class="progress-label">
-              <span>Resolution Rate</span>
-              <span class="progress-value">98%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 98%"></div>
-            </div>
-          </div>
-          
-          <div class="stats-grid">
-            <div class="stat-item">
-              <div class="stat-label">Active Issues</div>
-              <div class="stat-value red">8</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-label">Resolved Issues</div>
-              <div class="stat-value green">424</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-label">Total Reports</div>
-              <div class="stat-value">432</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-label">Avg Resolution Time</div>
-              <div class="stat-value">2.1 Days</div>
-            </div>
-          </div>
-          
-          <div class="stat-footer">
-            <div class="last-updated">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              <span>Last Updated: 5 mins ago</span>
-            </div>
-            <button class="btn-back-overview" id="backToOverview">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"/>
-              </svg>
-              Back to Overview
-            </button>
-          </div>
+          <div class="impact-counter impact-value" data-target="50">0</div>
+          <div class="impact-card-label">Wards Covered</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Testimonials -->
-<section class="testimonials">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Praise From the Ground</h2>
+  <!-- Why Civic Issues Stay Unresolved Section -->
+  <section class="unresolved-section" id="unresolved">
+    <div class="radial-glow"></div>
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span>The Problem</span>
+        </div>
+        <h2 class="section-title">Why Civic Issues Stay Unresolved</h2>
+        <p class="section-description">Traditional methods make civic reporting a black hole. Here is how Spottix bridges the gap.</p>
+      </div>
+      
+      <div class="unresolved-grid">
+        <!-- Card 1 -->
+        <div class="unresolved-card fade-up">
+          <div class="unresolved-num">01</div>
+          <h3 class="unresolved-card-title">Why Issues Linger</h3>
+          <p class="unresolved-card-desc">Traditional civic reporting provides no tracking or proper feedback. Citizens never know if action is being taken.</p>
+          <div class="unresolved-solution-badge">
+            <span class="pulse-dot-green"></span>
+            Spottix: Live Tracking
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="unresolved-card fade-up">
+          <div class="unresolved-num">02</div>
+          <h3 class="unresolved-card-title">No Accountability</h3>
+          <p class="unresolved-card-desc">Privately reported issues lack public visibility. Without community pressure, issues easily get swept under the rug.</p>
+          <div class="unresolved-solution-badge">
+            <span class="pulse-dot-green"></span>
+            Spottix: Public Feed
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="unresolved-card fade-up">
+          <div class="unresolved-num">03</div>
+          <h3 class="unresolved-card-title">Bureaucratic Gap</h3>
+          <p class="unresolved-card-desc">Ward officials require real-time, geotagged proof to assign sanitation units and close reports efficiently.</p>
+          <div class="unresolved-solution-badge">
+            <span class="pulse-dot-green"></span>
+            Spottix: Geo-tagged Proof
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <div class="testimonials-grid">
-      <div class="testimonial-card fade-up">
-        <div class="testimonial-rating">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
+  </section>
+
+  <!-- How Spottix Works Section -->
+  <section class="how-spottix-works" id="how-spottix-works-interactive">
+    <div class="radial-glow"></div>
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span>Interactive Guide</span>
         </div>
-        <p class="testimonial-text">"Spottix has made civic reporting incredibly easy. I reported a pothole near my house and it was fixed within 3 days. The live tracking feature is brilliant!"</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">MR</div>
-          <div class="author-info">
-            <div class="author-name">Meera Reddy</div>
-            <div class="author-location">Koramangala, Bengaluru</div>
-          </div>
-        </div>
+        <h2 class="section-title">How Spottix Works</h2>
+        <p class="section-description">A simple, transparent loop designed to bridge the gap between citizens and local ward officers.</p>
       </div>
       
-      <div class="testimonial-card fade-up">
-        <div class="testimonial-rating">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-        </div>
-        <p class="testimonial-text">"As a community volunteer, Spottix helps me stay connected with my neighbourhood. The gamification keeps me motivated to contribute more!"</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">AD</div>
-          <div class="author-info">
-            <div class="author-name">Aditya Das</div>
-            <div class="author-location">Indiranagar, Bengaluru</div>
+      <div class="works-interactive-grid">
+        <!-- Card 1: Report -->
+        <div class="works-interactive-card active fade-up" data-step="report">
+          <div class="works-card-glow"></div>
+          <div class="works-card-header">
+            <span class="works-step-num">01</span>
+            <div class="works-step-icon">📸</div>
+            <h3 class="works-step-title">Report</h3>
           </div>
+          <p class="works-step-desc">File civic issues instantly with automatic geolocation tagging.</p>
+          <ul class="works-sub-steps">
+            <li><span>✓</span> Add a clear geotagged photo</li>
+            <li><span>✓</span> Capture GPS coordinates</li>
+            <li><span>✓</span> Select category (Garbage, Sewage...)</li>
+            <li><span>✓</span> Submit securely to ward portal</li>
+          </ul>
+        </div>
+
+        <!-- Card 2: Track -->
+        <div class="works-interactive-card fade-up" data-step="track">
+          <div class="works-card-glow"></div>
+          <div class="works-card-header">
+            <span class="works-step-num">02</span>
+            <div class="works-step-icon">⏱️</div>
+            <h3 class="works-step-title">Track</h3>
+          </div>
+          <p class="works-step-desc">Follow ticket progression updates from assignment to resolution.</p>
+          <ul class="works-sub-steps">
+            <li><span>✓</span> Real-time status updates</li>
+            <li><span>✓</span> Live map coordinates tracker</li>
+            <li><span>✓</span> Instant status change notifications</li>
+            <li><span>✓</span> Local ward officer inspection</li>
+          </ul>
+        </div>
+
+        <!-- Card 3: Clean -->
+        <div class="works-interactive-card fade-up" data-step="clean">
+          <div class="works-card-glow"></div>
+          <div class="works-card-header">
+            <span class="works-step-num">03</span>
+            <div class="works-step-icon">🧹</div>
+            <h3 class="works-step-title">Clean</h3>
+          </div>
+          <p class="works-step-desc">Verify resolution proof uploaded directly by BBMP units.</p>
+          <ul class="works-sub-steps">
+            <li><span>✓</span> Sanitation team dispatched</li>
+            <li><span>✓</span> Verification photo proof uploaded</li>
+            <li><span>✓</span> Target area thoroughly cleaned</li>
+            <li><span>✓</span> Report resolved and archived</li>
+          </ul>
         </div>
       </div>
-      
-      <div class="testimonial-card fade-up verified">
-        <div class="testimonial-rating">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
+    </div>
+  </section>
+
+  <!-- Designed for Civic Action Section -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span>Designed for Civic Action</span>
         </div>
-        <p class="testimonial-text">"Spottix bridges the gap between citizens and ward officers. The geotagged reports with photos make verification quick and efficient."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar verified-avatar">SK</div>
-          <div class="author-info">
-            <div class="author-name">
-              Suresh Kumar
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="verified-icon">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
+        <h2 class="section-title">Designed for Civic Action</h2>
+        <p class="section-description">A robust set of civic tools built to bridge the gap between citizens and local ward officers.</p>
+      </div>
+      
+      <div class="features-grid-3x2">
+        <!-- 1. Instant Reporting -->
+        <div class="feature-card-glow fade-up">
+          <div class="feature-card-header">
+            <div class="feature-card-icon">📸</div>
+            <div class="feature-card-text">
+              <h3 class="feature-card-title">Instant Reporting</h3>
+              <p class="feature-card-desc">Snap photos or record quick videos inside the app. GPS tags lock down coordinates automatically.</p>
             </div>
-            <div class="author-location">Ward Officer, Ward 186</div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ Section -->
-<section class="faq" id="faq">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Frequently Asked Questions</h2>
-    </div>
-    
-    <div class="faq-container">
-      <div class="faq-item fade-up">
-        <button class="faq-question">
-          <span>Is Spottix free to use?</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-icon">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-        </button>
-        <div class="faq-answer">
-          <p>Yes, Spottix is completely free for all citizens. Download the app and start reporting civic issues immediately without any subscription fees.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item fade-up">
-        <button class="faq-question">
-          <span>Can I report issues anonymously?</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-icon">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-        </button>
-        <div class="faq-answer">
-          <p>You can report issues with your verified profile to help build accountability. However, your personal details remain private and are only visible to ward officers.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item fade-up">
-        <button class="faq-question">
-          <span>Which cities are currently supported?</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-icon">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-        </button>
-        <div class="faq-answer">
-          <p>Spottix is currently live in Bengaluru with coverage across all 198 wards. We are actively working to expand to other major Indian cities soon.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item fade-up">
-        <button class="faq-question">
-          <span>How is my location data used?</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-icon">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-        </button>
-        <div class="faq-answer">
-          <p>Location data is only used to accurately tag your civic issue reports and help ward officers identify the exact location. We do not track your movements or share location data with third parties.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item fade-up">
-        <button class="faq-question">
-          <span>How quickly are issues resolved?</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="faq-icon">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-        </button>
-        <div class="faq-answer">
-          <p>Resolution time varies by issue type and ward. On average, 95% of reported issues are resolved within 2-5 days. You can track live status updates in the app.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Download CTA -->
-<section class="download-cta">
-  <div class="cta-bg"></div>
-  <div class="container">
-    <div class="cta-content">
-      <div class="cta-left">
-        <h2 class="cta-title">Your City.<br>Your Voice.<br>Your <span class="gradient-text">Spottix.</span></h2>
-        <p class="cta-description">Be the change in your neighbourhood. Download the Spottix app today and start reporting.</p>
         
-        <div class="cta-buttons">
+        <!-- 2. Smart Category Tagging -->
+        <div class="feature-card-glow fade-up">
+          <div class="feature-card-header">
+            <div class="feature-card-icon">🏷️</div>
+            <div class="feature-card-text">
+              <h3 class="feature-card-title">Smart Category Tagging</h3>
+              <p class="feature-card-desc">Choose from 6 key problem tags to route issues to the right BBMP sanitation or engineering unit.</p>
+            </div>
+          </div>
+          <div class="feature-card-categories">
+            <span class="feat-cat-pill">Garbage</span>
+            <span class="feat-cat-pill">Sewage</span>
+            <span class="feat-cat-pill">Road Damage</span>
+            <span class="feat-cat-pill">Street Light</span>
+            <span class="feat-cat-pill">Water Issue</span>
+            <span class="feat-cat-pill">Public Property</span>
+          </div>
+        </div>
+        
+        <!-- 3. Live Status Tracking -->
+        <div class="feature-card-glow fade-up">
+          <div class="feature-card-header">
+            <div class="feature-card-icon">✔️</div>
+            <div class="feature-card-text">
+              <h3 class="feature-card-title">Live Status Tracking</h3>
+              <p class="feature-card-desc">No more guessing. Watch ticket progression in real-time verified milestones on the public timeline.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 4. Location-Based Discovery -->
+        <div class="feature-card-glow fade-up">
+          <div class="feature-card-header">
+            <div class="feature-card-icon">📍</div>
+            <div class="feature-card-text">
+              <h3 class="feature-card-title">Location-Based Discovery</h3>
+              <p class="feature-card-desc">Browse local reports in your area. Upvote local issues to highlight urgency to ward officials.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 5. Ward-Level Resolution Map -->
+        <div class="feature-card-glow fade-up">
+          <div class="feature-card-header">
+            <div class="feature-card-icon">🗺️</div>
+            <div class="feature-card-text">
+              <h3 class="feature-card-title">Ward-Level Resolution Map</h3>
+              <p class="feature-card-desc">Explore color-coded heat map of ward-level resolution speeds (Green, Amber, Red ratings).</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 6. Community Verification -->
+        <div class="feature-card-glow fade-up">
+          <div class="feature-card-header">
+            <div class="feature-card-icon">👥</div>
+            <div class="feature-card-text">
+              <h3 class="feature-card-title">Community Verification</h3>
+              <p class="feature-card-desc">Citizens verification upvotes build trust. Opt for anonymous reporting if you prefer private action.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step Section: "Change in 4 Simple Steps" -->
+  <section class="steps-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span>Simple Steps, Big Impact</span>
+        </div>
+        <h2 class="section-title">Change in 4 Simple Steps</h2>
+        <p class="section-description">How Spottix turns citizen observations into local ward-level action.</p>
+      </div>
+      
+      <div class="steps-container">
+        <!-- Step 1 -->
+        <div class="step-card fade-up">
+          <div class="step-icon-wrapper">
+            <div class="step-number">1</div>
+            <div class="step-icon">📸</div>
+          </div>
+          <h3 class="step-title">Spot an Issue</h3>
+          <p class="step-description">Spot garbage piles, overflowing sewage, potholes, water leaks or broken streetlights.</p>
+          <div class="step-image">
+            <img src="./assets/before_garbage_pile.png" alt="Before pile">
+          </div>
+        </div>
+        
+        <div class="step-connector"></div>
+        
+        <!-- Step 2 -->
+        <div class="step-card fade-up">
+          <div class="step-icon-wrapper">
+            <div class="step-number">2</div>
+            <div class="step-icon">🏷️</div>
+          </div>
+          <h3 class="step-title">Snap & Tag</h3>
+          <p class="step-description">Take a photo. Spottix automatically captures the accurate GPS location and category.</p>
+          <div class="step-tags">
+            <span class="tag">Photo</span>
+            <span class="tag">Auto Location</span>
+          </div>
+        </div>
+        
+        <div class="step-connector"></div>
+        
+        <!-- Step 3 -->
+        <div class="step-card fade-up">
+          <div class="step-icon-wrapper">
+            <div class="step-number">3</div>
+            <div class="step-icon">⏱️</div>
+          </div>
+          <h3 class="step-title">Track Status</h3>
+          <p class="step-description">Watch the status change live from submission to final resolution.</p>
+          <div class="status-flow-horizontal" id="statusFlow">
+            <span class="status-flow-pill new">NEW</span>
+            <span class="flow-arrow">→</span>
+            <span class="status-flow-pill active">ACTIVE</span>
+            <span class="flow-arrow">→</span>
+            <span class="status-flow-pill verified">VERIFIED</span>
+            <span class="flow-arrow">→</span>
+            <span class="status-flow-pill progress">IN PROGRESS</span>
+            <span class="flow-arrow">→</span>
+            <span class="status-flow-pill resolved">RESOLVED</span>
+          </div>
+        </div>
+        
+        <div class="step-connector"></div>
+        
+        <!-- Step 4 -->
+        <div class="step-card fade-up">
+          <div class="step-icon-wrapper">
+            <div class="step-number">4</div>
+            <div class="step-icon">🔔</div>
+          </div>
+          <h3 class="step-title">Get Notified</h3>
+          <p class="step-description">Receive an instant notification when the ward officer uploads verification proof.</p>
+          <div class="step-image">
+            <img src="./assets/after_clean_road.png" alt="After resolved">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Before and After Transformation Section -->
+  <section class="transformation-section" id="transformation">
+    <div class="radial-glow"></div>
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span>See the Impact</span>
+        </div>
+        <h2 class="section-title">See the Transformation</h2>
+        <p class="section-description">Slide to compare how Spottix helps turn cluttered spots into clean public spaces.</p>
+      </div>
+
+      <div class="slider-comparison-container fade-up">
+        <!-- Before/After Info Cards on Sides -->
+        <div class="slider-info-panel left">
+          <span class="panel-tag before-tag">Before Spottix</span>
+          <ul class="panel-details">
+            <li>⚠️ Unhygienic Pile</li>
+            <li>⚠️ Polluted Area</li>
+            <li>⚠️ Negative Community Impact</li>
+          </ul>
+        </div>
+
+        <!-- Slider Widget -->
+        <div class="comparison-slider" id="imageComparisonSlider">
+          <!-- After Image (Base) -->
+          <img src="./assets/after_clean_road.png" alt="Clean and safe street" class="slider-img after-img">
+          
+          <!-- Before Image (Overlayed / Clipped) -->
+          <div class="before-image-overlay" id="beforeImageOverlay">
+            <img src="./assets/before_garbage_pile.png" alt="Trash piling on road" class="slider-img before-img">
+          </div>
+          
+          <!-- Split Handle -->
+          <div class="slider-handle" id="sliderHandle" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Image Comparison Slider">
+            <div class="handle-line"></div>
+            <div class="handle-circle">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="8 17 3 12 8 7"></polyline>
+                <polyline points="16 17 21 12 16 7"></polyline>
+              </svg>
+            </div>
+            <div class="handle-line"></div>
+          </div>
+          
+          <!-- Labels directly inside slider -->
+          <span class="slider-label-overlay before-overlay">BEFORE</span>
+          <span class="slider-label-overlay after-overlay">AFTER</span>
+        </div>
+
+        <div class="slider-info-panel right">
+          <span class="panel-tag after-tag">After Resolution</span>
+          <ul class="panel-details">
+            <li>✅ Clean and Safe</li>
+            <li>✅ Pollution Free</li>
+            <li>✅ Positive Community Impact</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- In Action Showcase Slider Section -->
+  <section class="app-showcase-section" id="in-action">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span>Live. Local. Impactful.</span>
+        </div>
+        <h2 class="section-title">Spottix App in Action</h2>
+        <p class="section-description">See how easy it is to report, track and help make Bengaluru cleaner.</p>
+      </div>
+      
+      <div class="showcase-5-grid">
+          <!-- Item 1 -->
+          <div class="showcase-item fade-up">
+            <div class="phone-mockup-frame">
+              <div class="phone-notch"><div class="phone-notch-camera"></div><div class="phone-notch-speaker"></div></div>
+              <div class="phone-status-bar"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+              <div class="phone-inner-screen">
+                <div class="phone-screen-feed">
+                  <div class="feed-header"><span>Live Feed</span><div class="feed-header-icons">🔔</div></div>
+                  <div class="feed-card">
+                    <div class="feed-user">
+                      <div class="feed-avatar">AK</div>
+                      <div class="feed-user-details"><span class="feed-username">Arjun Kumar</span><span class="feed-time">Koramangala • 2m ago</span></div>
+                    </div>
+                    <p class="feed-text">Overflowing garbage bin near 5th block. Needs urgent clearance!</p>
+                    <div class="feed-stats"><span style="color:#f59e0b;font-weight:700">🟡 Active</span><span>👍 12 Upvotes</span></div>
+                  </div>
+                  <div class="feed-card">
+                    <div class="feed-user">
+                      <div class="feed-avatar" style="background:#8cff3f;color:#0b0f0c">SR</div>
+                      <div class="feed-user-details"><span class="feed-username">Sana Rizvi</span><span class="feed-time">HSR Layout • Resolved</span></div>
+                    </div>
+                    <p class="feed-text">Street light fixed! Ward team responded within 24 hours. 🎉</p>
+                    <div class="feed-stats"><span style="color:#8cff3f;font-weight:700">✅ Resolved</span><span>👍 28 Upvotes</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="showcase-info">
+              <div class="showcase-icon">📱</div>
+              <h3 class="showcase-title">Live Feed<br><small>(Ward 196)</small></h3>
+              <p class="showcase-description">Real-time community reports from your ward and nearby areas.</p>
+            </div>
+          </div>
+          
+          <!-- Item 2 -->
+          <div class="showcase-item fade-up">
+            <div class="phone-mockup-frame">
+              <div class="phone-notch"><div class="phone-notch-camera"></div><div class="phone-notch-speaker"></div></div>
+              <div class="phone-status-bar"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+              <div class="phone-inner-screen">
+                <div class="phone-screen-feed">
+                  <div class="feed-header"><span>Report Issue</span><div class="feed-header-icons">📸</div></div>
+                  <div style="padding:8px;">
+                    <div style="background:#1a2b1a;border-radius:10px;height:90px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;border:1px dashed #8cff3f44;font-size:11px;color:#8cff3f">📷 Photo Added</div>
+                    <div style="font-size:10px;color:#a0b0a0;margin-bottom:6px">Category</div>
+                    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">
+                      <span style="background:#8cff3f;color:#0b0f0c;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700">Garbage</span>
+                      <span style="background:#1a2b1a;color:#a0b0a0;padding:2px 8px;border-radius:20px;font-size:9px">Sewage</span>
+                      <span style="background:#1a2b1a;color:#a0b0a0;padding:2px 8px;border-radius:20px;font-size:9px">Pothole</span>
+                    </div>
+                    <div style="font-size:10px;color:#8cff3f">📍 HSR Layout, Bengaluru</div>
+                    <div style="margin-top:10px;background:#8cff3f;color:#0b0f0c;text-align:center;padding:6px;border-radius:8px;font-size:10px;font-weight:700">Submit Report</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="showcase-info">
+              <div class="showcase-icon">🗺️</div>
+              <h3 class="showcase-title">Verified Road Issue<br><small>Sewage Issue</small></h3>
+              <p class="showcase-description">Users report issues with photos and accurate location.</p>
+            </div>
+          </div>
+          
+          <!-- Item 3 -->
+          <div class="showcase-item fade-up">
+            <div class="phone-mockup-frame">
+              <div class="phone-notch"><div class="phone-notch-camera"></div><div class="phone-notch-speaker"></div></div>
+              <div class="phone-status-bar"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+              <div class="phone-inner-screen">
+                <div class="phone-screen-feed">
+                  <div class="feed-header"><span>My Reports</span><div class="feed-header-icons">⏱️</div></div>
+                  <div style="padding:8px;">
+                    <div style="font-size:10px;color:#a0b0a0;margin-bottom:6px">Street Light — Indiranagar</div>
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#8cff3f;display:inline-block"></span><span style="font-size:9px;color:#ccc">Report Submitted</span></div>
+                      <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#8cff3f;display:inline-block"></span><span style="font-size:9px;color:#ccc">Ward Officer Inspected</span></div>
+                      <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block"></span><span style="font-size:9px;color:#ccc">BBMP Team Dispatched</span></div>
+                      <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#333;display:inline-block"></span><span style="font-size:9px;color:#555">Resolved — Pending</span></div>
+                    </div>
+                    <div style="margin-top:10px;background:#1a2b1a;border:1px solid #8cff3f44;border-radius:8px;padding:8px;text-align:center">
+                      <div style="font-size:9px;color:#8cff3f;font-weight:700">IN PROGRESS</div>
+                      <div style="font-size:9px;color:#a0b0a0;margin-top:2px">Est. Resolution: 1-2 Days</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="showcase-info">
+              <div class="showcase-icon">⏱️</div>
+              <h3 class="showcase-title">Street Light<br>Resolution Status</h3>
+              <p class="showcase-description">Track live status of your report in real-time.</p>
+            </div>
+          </div>
+
+          <!-- Item 4: Filter Dialog -->
+          <div class="showcase-item fade-up">
+            <div class="phone-mockup-frame">
+              <div class="phone-notch"><div class="phone-notch-camera"></div><div class="phone-notch-speaker"></div></div>
+              <div class="phone-status-bar"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+              <div class="phone-inner-screen">
+                <div class="phone-screen-feed">
+                  <div class="feed-header"><span>Filter</span><span style="font-size:10px;color:#8cff3f">&#10005;</span></div>
+                  <div style="padding:6px;">
+                    <div style="display:flex;gap:6px;margin-bottom:8px">
+                      <span style="flex:1;text-align:center;padding:4px;background:#1a2b1a;border-radius:6px;font-size:9px;color:#8cff3f;border:1px solid #8cff3f">Status</span>
+                      <span style="flex:1;text-align:center;padding:4px;background:#111;border-radius:6px;font-size:9px;color:#a0b0a0">Category</span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:5px">
+                      <div style="display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#ccc;padding:3px 0;border-bottom:1px solid #1a2b1a"><span>🗑️ Garbage</span><span style="width:12px;height:12px;border-radius:50%;border:1px solid #555;display:inline-block"></span></div>
+                      <div style="display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#ccc;padding:3px 0;border-bottom:1px solid #1a2b1a"><span>🌊 Sewage</span><span style="width:12px;height:12px;border-radius:50%;border:1px solid #555;display:inline-block"></span></div>
+                      <div style="display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#ccc;padding:3px 0;border-bottom:1px solid #1a2b1a"><span>🔒 Road Damage</span><span style="width:12px;height:12px;border-radius:50%;border:1px solid #555;display:inline-block"></span></div>
+                      <div style="display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#ccc;padding:3px 0"><span>💡 Street Light</span><span style="width:12px;height:12px;border-radius:50%;border:1px solid #555;display:inline-block"></span></div>
+                    </div>
+                    <div style="margin-top:10px;display:flex;gap:6px">
+                      <div style="flex:1;text-align:center;padding:5px;border:1px solid #333;border-radius:6px;font-size:9px;color:#a0b0a0">Clear Filters</div>
+                      <div style="flex:1;text-align:center;padding:5px;background:#8cff3f;border-radius:6px;font-size:9px;color:#0b0f0c;font-weight:700">Apply</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="showcase-info">
+              <div class="showcase-icon">🔥</div>
+              <h3 class="showcase-title">Smart Category<br>Selection Dialog</h3>
+              <p class="showcase-description">Easily choose the issue category for accurate reporting.</p>
+            </div>
+          </div>
+
+          <!-- Item 5: Ward Heatmap -->
+          <div class="showcase-item fade-up">
+            <div class="phone-mockup-frame">
+              <div class="phone-notch"><div class="phone-notch-camera"></div><div class="phone-notch-speaker"></div></div>
+              <div class="phone-status-bar"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+              <div class="phone-inner-screen">
+                <div class="phone-screen-feed">
+                  <div class="feed-header" style="background:#0a1a0a">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8cff3f" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                    <span style="font-size:9px;letter-spacing:1px">Ward Heatmap</span>
+                    <span style="font-size:9px">🔔</span>
+                  </div>
+                  <div style="flex:1;background:linear-gradient(135deg,#0d1f0d 0%,#1a3a1a 40%,#0d1f0d 100%);display:flex;align-items:center;justify-content:center;font-size:9px;color:#8cff3f;text-align:center;padding:6px">
+                    <div>
+                      <div style="font-size:8px;color:#a0cfa0;margin-bottom:4px">🗺️ Bengaluru</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:center">
+                        <span style="width:18px;height:10px;background:#8cff3f;border-radius:2px;opacity:0.9"></span>
+                        <span style="width:18px;height:10px;background:#f59e0b;border-radius:2px;opacity:0.8"></span>
+                        <span style="width:18px;height:10px;background:#ef4444;border-radius:2px;opacity:0.7"></span>
+                        <span style="width:18px;height:10px;background:#8cff3f;border-radius:2px;opacity:0.6"></span>
+                        <span style="width:18px;height:10px;background:#f59e0b;border-radius:2px;opacity:0.9"></span>
+                        <span style="width:18px;height:10px;background:#8cff3f;border-radius:2px;opacity:0.8"></span>
+                      </div>
+                      <div style="margin-top:6px;font-size:8px">
+                        <span style="color:#8cff3f">● &gt;80%</span>&nbsp;
+                        <span style="color:#f59e0b">● 60-80%</span>&nbsp;
+                        <span style="color:#ef4444">● &lt;60%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="showcase-info">
+              <div class="showcase-icon">🗺️</div>
+              <h3 class="showcase-title">Ward Heatmap &amp;<br>Navigation</h3>
+              <p class="showcase-description">Explore ward-wise performance with interactive heatmap.</p>
+            </div>
+          </div>
+        </div><!-- end showcase-5-grid -->
+    </div>
+  </section>
+
+  <!-- Interactive Bengaluru Map Section -->
+  <section class="map-section" id="live-map">
+    <div class="container-fluid">
+      <div class="map-section-top">
+        <div class="map-heading-text">
+          <h2 class="section-title map-title">Reports From All Over <span class="gradient-text">Bengaluru</span></h2>
+          <p class="section-description">Explore real-time community reports and track cleaner neighbourhoods across Bengaluru.</p>
+        </div>
+        <div class="map-stats-bar">
+          <div class="map-stat-item">
+            <div class="map-stat-icon">📝</div>
+            <div class="map-stat-val">10K+</div>
+            <div class="map-stat-label">Reports Submitted</div>
+          </div>
+          <div class="map-stat-item">
+            <div class="map-stat-icon">👥</div>
+            <div class="map-stat-val">5K+</div>
+            <div class="map-stat-label">Active Users</div>
+          </div>
+          <div class="map-stat-item">
+            <div class="map-stat-icon" style="color:#8cff3f">✓</div>
+            <div class="map-stat-val" style="color:#8cff3f">95%</div>
+            <div class="map-stat-label">Reports Resolved</div>
+          </div>
+          <div class="map-stat-item">
+            <div class="map-stat-icon">🗺️</div>
+            <div class="map-stat-val">50+</div>
+            <div class="map-stat-label">Wards Covered</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="map-container-wrapper">
+        <div class="map-wrapper">
+          <div id="bengaluruMap" class="bengaluru-map"></div>
+          
+          <div class="map-legend">
+            <div class="legend-title">Resolution Rate</div>
+            <div class="legend-item">
+              <span class="legend-dot green"></span>
+              <span>> 80% Resolved</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot amber"></span>
+              <span>60-80% Resolved</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Ward Statistics -->
+        <div class="ward-statistics" id="wardStats">
+          <div class="stats-header">
+            <h3>Ward Statistics</h3>
+            <span class="status-badge green">Green (Excellent)</span>
+          </div>
+          
+          <div class="stats-content">
+            <div class="stat-location">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <div>
+                <div class="ward-name">Koramangala (Ward 186)</div>
+                <div class="ward-location">Koramangala, Bengaluru</div>
+              </div>
+            </div>
+            
+            <div class="stat-progress">
+              <div class="progress-label">
+                <span>Resolution Rate</span>
+                <span class="progress-value">98%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 98%"></div>
+              </div>
+            </div>
+            
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-label">Active Issues</div>
+                <div class="stat-value red">8</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Resolved Issues</div>
+                <div class="stat-value green">424</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Total Reports</div>
+                <div class="stat-value">432</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Avg Resolution Time</div>
+                <div class="stat-value">2.1 Days</div>
+              </div>
+            </div>
+            
+            <div class="stat-footer">
+              <div class="last-updated">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span>Last Updated: 5 mins ago</span>
+              </div>
+              <button class="btn-back-overview" id="backToOverview">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Back to Overview
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community and Gamification Section -->
+  <section class="community-leaderboard" id="community">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Turning Civic Duty Into Friendly Competition</h2>
+        <p class="section-description">Earn badges, climb leaderboards and be recognized as a civic champion.</p>
+      </div>
+      
+      <div class="gamification-grid">
+        <!-- Badges & Ranks -->
+        <div class="badges-section fade-up">
+          <div>
+            <h3 class="subsection-title">Earn Badges & Ranks</h3>
+            <div class="badges-grid">
+              <div class="badge-item">
+                <div class="badge-icon rookie">🏅</div>
+                <h4 class="badge-name">Civic Rookie</h4>
+                <p class="badge-requirement">1-5 Reports</p>
+              </div>
+              <div class="badge-item">
+                <div class="badge-icon active">🏅</div>
+                <h4 class="badge-name">Active Citizen</h4>
+                <p class="badge-requirement">6-20 Reports</p>
+              </div>
+              <div class="badge-item">
+                <div class="badge-icon champion">🏆</div>
+                <h4 class="badge-name">Ward Champion</h4>
+                <p class="badge-requirement">21-50 Reports</p>
+              </div>
+              <div class="badge-item">
+                <div class="badge-icon legend">👑</div>
+                <h4 class="badge-name">Ward Legend</h4>
+                <p class="badge-requirement">50+ Reports</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="points-info">
+            <div class="point-item">
+              <span>💎 Contribution Points</span>
+            </div>
+            <div class="point-item">
+              <span>🎁 Verification Rewards</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Leaderboard Section -->
+        <div class="leaderboard-section fade-up">
+          <div class="leaderboard-tabs">
+            <button class="tab-btn active" data-tab="citizen">Citizen Leaderboard</button>
+            <button class="tab-btn" data-tab="ward">Ward Leaderboard</button>
+          </div>
+          
+          <!-- Citizen Tab -->
+          <div class="tab-content active" id="citizen-tab">
+            <div class="leaderboard-list">
+              <div class="leaderboard-item rank-1">
+                <div class="rank">1</div>
+                <div class="user-info">
+                  <div class="user-avatar">RK</div>
+                  <div class="user-details">
+                    <span class="user-name">Rakesh Kumar</span>
+                    <span class="user-ward">Ward 186</span>
+                  </div>
+                </div>
+                <div class="user-points">2,450 pts</div>
+              </div>
+              
+              <div class="leaderboard-item rank-2">
+                <div class="rank">2</div>
+                <div class="user-info">
+                  <div class="user-avatar">PS</div>
+                  <div class="user-details">
+                    <span class="user-name">Priya Sharma</span>
+                    <span class="user-ward">Ward 154</span>
+                  </div>
+                </div>
+                <div class="user-points">2,120 pts</div>
+              </div>
+              
+              <div class="leaderboard-item rank-3">
+                <div class="rank">3</div>
+                <div class="user-info">
+                  <div class="user-avatar">AM</div>
+                  <div class="user-details">
+                    <span class="user-name">Arjun Mehta</span>
+                    <span class="user-ward">Ward 78</span>
+                  </div>
+                </div>
+                <div class="user-points">1,980 pts</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Ward Tab -->
+          <div class="tab-content" id="ward-tab">
+            <div class="leaderboard-list">
+              <div class="leaderboard-item rank-1">
+                <div class="rank">1</div>
+                <div class="ward-info">
+                  <span class="ward-name">Ward 186 - Koramangala</span>
+                  <span class="ward-stats">432 Reports • 98% Resolved</span>
+                </div>
+              </div>
+              
+              <div class="leaderboard-item rank-2">
+                <div class="rank">2</div>
+                <div class="ward-info">
+                  <span class="ward-name">Ward 154 - Indiranagar</span>
+                  <span class="ward-stats">398 Reports • 96% Resolved</span>
+                </div>
+              </div>
+              
+              <div class="leaderboard-item rank-3">
+                <div class="rank">3</div>
+                <div class="ward-info">
+                  <span class="ward-name">Ward 78 - Jayanagar</span>
+                  <span class="ward-stats">375 Reports • 94% Resolved</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. ADVANCED CAPABILITIES SECTION -->
+  <section class="advanced-capabilities">
+    <div class="container">
+      <div class="advanced-grid">
+        <!-- Left Column: Mockup showing BBMP sanitation details -->
+        <div class="advanced-mockup-col">
+          <div class="radial-glow"></div>
+          <div class="phone-mockup-frame">
+            <div class="phone-notch"><div class="phone-notch-camera"></div><div class="phone-notch-speaker"></div></div>
+            <div class="phone-status-bar"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+            <div class="phone-inner-screen">
+              <div class="phone-cleanup-details">
+                <img src="./assets/before_garbage_pile.png" alt="Report garbage image" class="phone-cleanup-img">
+                <div class="cleanup-meta">
+                  <div>
+                    <h4 class="cleanup-title">Garbage Report</h4>
+                    <span class="cleanup-location">📍 Indiranagar, Bengaluru</span>
+                  </div>
+                  <span class="status-pill progress">In Progress</span>
+                </div>
+                
+                <div class="cleanup-timeline">
+                  <div class="cleanup-timeline-step">
+                    <span class="cleanup-timeline-dot"></span>
+                    <span>Reported - May 24, 2026 • 10:30 AM</span>
+                  </div>
+                  <div class="cleanup-timeline-step">
+                    <span class="cleanup-timeline-dot active"></span>
+                    <span>In Progress - May 24, 2026 • 01:15 PM</span>
+                  </div>
+                  <div class="cleanup-timeline-step">
+                    <span class="cleanup-timeline-dot pending"></span>
+                    <span style="color: var(--text-gray-dark)">Cleaned - Pending</span>
+                  </div>
+                </div>
+                
+                <div class="cleanup-team-card">
+                  <div class="cleanup-team-icon">🚚</div>
+                  <div>
+                    <div class="cleanup-team-name">BBMP Sanitation Unit</div>
+                    <div class="cleanup-team-id">Work ID: SP-260524</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="phone-nav-bar">
+              <div class="phone-nav-item">🏠</div>
+              <div class="phone-nav-item">🗺️</div>
+              <div class="phone-nav-add">+</div>
+              <div class="phone-nav-item">🏆</div>
+              <div class="phone-nav-item">👤</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Column: Heading and Capabilities list -->
+        <div>
+          <div class="section-header" style="text-align: left; margin-bottom: 30px;">
+            <div class="section-badge">
+              <span>Platform Power</span>
+            </div>
+            <h2 class="section-title" style="font-size: 34px;">Spottix Advanced Capabilities</h2>
+            <p class="section-description">Explore the tools built to help Bengaluru citizens verify and track issues faster.</p>
+          </div>
+          
+          <div class="advanced-cards">
+            <!-- 1. Instant Issue Reporting -->
+            <div class="adv-card">
+              <div class="adv-card-icon">📸</div>
+              <div class="adv-card-content">
+                <span class="adv-card-title">Instant Issue Reporting</span>
+                <span class="adv-card-desc">Geotagged photographic records uploaded directly to BBMP ward portal.</span>
+              </div>
+            </div>
+            
+            <!-- 2. Smart Category Detection -->
+            <div class="adv-card">
+              <div class="adv-card-icon">🔍</div>
+              <div class="adv-card-content">
+                <span class="adv-card-title">Smart Category Detection</span>
+                <span class="adv-card-desc">Intelligent categories auto-sorting based on reporting details.</span>
+              </div>
+            </div>
+            
+            <!-- 3. Community Verification -->
+            <div class="adv-card">
+              <div class="adv-card-icon">👥</div>
+              <div class="adv-card-content">
+                <span class="adv-card-title">Community Verification</span>
+                <span class="adv-card-desc">Citizens upvote and verify local reports to build public ward records.</span>
+              </div>
+            </div>
+            
+            <!-- 4. Ward-Level Tracking -->
+            <div class="adv-card">
+              <div class="adv-card-icon">🗺️</div>
+              <div class="adv-card-content">
+                <span class="adv-card-title">Ward-Level Tracking</span>
+                <span class="adv-card-desc">Detailed metrics highlighting local resolution performance ratings.</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bottom security ribbon -->
+          <div class="security-performance-strip">
+            <div class="strip-item">🛡️ Secure User Data</div>
+            <div class="strip-item">⚡ Real-Time Updates</div>
+            <div class="strip-item">✅ 99.9% Uptime</div>
+            <div class="strip-item">📋 Verified Reports</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. DOWNLOAD APP SECTION -->
+  <section class="download-section" id="download">
+    <div class="download-bg-waves"></div>
+    <div class="container">
+      <div class="download-cta-box">
+        <h2 class="download-title section-title">Your City. Your Voice. <span class="gradient-text">Your Spottix.</span></h2>
+        <p class="download-desc">Be the change in your neighbourhood. Download Spottix and start reporting today.</p>
+        
+        <div class="download-buttons-group">
+          <!-- Play store -->
           <a href="https://play.google.com/store/apps/details?id=com.spottix.app" target="_blank" class="store-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 010 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.802 8.99l-2.303 2.303-8.635-8.635z"/>
             </svg>
             <div>
-              <span>GET IT ON</span>
+              <span>Get It On</span>
               <strong>Google Play</strong>
             </div>
           </a>
-          
+          <!-- App store -->
           <a href="#" class="store-btn disabled">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.37 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
             </svg>
             <div>
@@ -1265,115 +1230,301 @@
           </a>
         </div>
         
-        <div class="cta-qr">
-          <img src="./assets/qr_code_real.png" alt="QR Code" loading="lazy">
-          <div class="qr-text">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
+        <div class="download-qr-wrap">
+          <img src="./assets/qr_code_real.png" alt="Scan QR code">
+          <div class="download-qr-text">
             <span>Scan to Download</span>
+            <strong>Spottix App</strong>
+          </div>
+        </div>
+        
+        <!-- 3 straight mockups side-by-side -->
+        <div class="download-phones-row">
+          <div class="download-phone-wrapper">
+            <div class="phone-mockup-frame">
+              <div class="phone-notch"><div class="phone-notch-camera"></div><div class="phone-notch-speaker"></div></div>
+              <div class="phone-status-bar"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+              <div class="phone-inner-screen">
+                <img src="./assets/spottix_phone_mockup.png" alt="Mockup screen" style="width: 100%; height: auto;">
+              </div>
+            </div>
+          </div>
+          <div class="download-phone-wrapper">
+            <div class="phone-mockup-frame">
+              <div class="phone-notch"><div class="phone-notch-camera"></div><div class="phone-notch-speaker"></div></div>
+              <div class="phone-status-bar"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+              <div class="phone-inner-screen">
+                <img src="./assets/spottix_phone_mockup.png" alt="Mockup screen" style="width: 100%; height: auto;">
+              </div>
+            </div>
+          </div>
+          <div class="download-phone-wrapper">
+            <div class="phone-mockup-frame">
+              <div class="phone-notch"><div class="phone-notch-camera"></div><div class="phone-notch-speaker"></div></div>
+              <div class="phone-status-bar"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+              <div class="phone-inner-screen">
+                <img src="./assets/spottix_phone_mockup.png" alt="Mockup screen" style="width: 100%; height: auto;">
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- 7. TESTIMONIAL SECTION -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span>Feedback</span>
+        </div>
+        <h2 class="section-title">What Bengaluru Says About Spottix</h2>
+      </div>
       
-      <div class="cta-right">
-        <div class="cta-phone">
-          <img src="./assets/spottix_phone_mockup.png" alt="Spottix App" loading="lazy">
+      <div class="testimonials-grid-wrapper">
+        <div class="testimonials-grid-layout">
+          <!-- Card 1 -->
+          <div class="testimonial-card-premium fade-up">
+            <div>
+              <div class="test-quotes-icon">“</div>
+              <p class="test-review-text">"Spottix has made civic reporting incredibly easy. I reported a pothole near my house and it was fixed within 3 days. The live tracking feature is brilliant!"</p>
+            </div>
+            <div class="test-author-profile">
+              <div class="test-author-avatar-wrap">
+                <div class="test-author-avatar">MR</div>
+                <div class="test-green-dot"></div>
+              </div>
+              <div class="test-author-info">
+                <span class="test-author-name">Meera Reddy</span>
+                <span class="test-author-role">Citizen</span>
+                <span class="test-author-location">Koramangala, Bengaluru</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 2 -->
+          <div class="testimonial-card-premium fade-up">
+            <div>
+              <div class="test-quotes-icon">“</div>
+              <p class="test-review-text">"As a community volunteer, Spottix helps me stay connected with my neighbourhood. The gamification keeps me motivated to contribute more!"</p>
+            </div>
+            <div class="test-author-profile">
+              <div class="test-author-avatar-wrap">
+                <div class="test-author-avatar">AD</div>
+                <div class="test-green-dot"></div>
+              </div>
+              <div class="test-author-info">
+                <span class="test-author-name">Aditya Das</span>
+                <span class="test-author-role">Volunteer</span>
+                <span class="test-author-location">Indiranagar, Bengaluru</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 3 -->
+          <div class="testimonial-card-premium fade-up">
+            <div>
+              <div class="test-quotes-icon">“</div>
+              <p class="test-review-text">"Spottix bridges the gap between citizens and ward officers. The geotagged reports with photos make verification quick and efficient."</p>
+            </div>
+            <div class="test-author-profile">
+              <div class="test-author-avatar-wrap">
+                <div class="test-author-avatar">SK</div>
+                <div class="test-green-dot"></div>
+              </div>
+              <div class="test-author-info">
+                <span class="test-author-name">Suresh Kumar</span>
+                <span class="test-author-role">Ward Officer</span>
+                <span class="test-author-location">Ward 186, Bengaluru</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 4 -->
+          <div class="testimonial-card-premium fade-up">
+            <div>
+              <div class="test-quotes-icon">“</div>
+              <p class="test-review-text">"I love how I can see the status of my report. The app is easy to use and I feel heard. Spottix is making our city a better place to live."</p>
+            </div>
+            <div class="test-author-profile">
+              <div class="test-author-avatar-wrap">
+                <div class="test-author-avatar">SI</div>
+                <div class="test-green-dot"></div>
+              </div>
+              <div class="test-author-info">
+                <span class="test-author-name">Sneha Iyer</span>
+                <span class="test-author-role">Citizen</span>
+                <span class="test-author-location">Jayanagar, Bengaluru</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Premium Footer -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-brand">
-        <a href="#" class="footer-logo">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-            <circle cx="12" cy="10" r="3"/>
+  <!-- 8. FAQ SECTION -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+      
+      <div class="faq-accordion-container">
+        <!-- Q1 -->
+        <div class="faq-item faq-premium-item fade-up">
+          <button class="faq-question faq-question-btn" aria-expanded="false">
+            <span>Is Spottix free to use?</span>
+            <div class="faq-toggle-icon">
+              <!-- Plus/Minus Line SVG -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </div>
+          </button>
+          <div class="faq-answer faq-answer-panel">
+            <div class="faq-answer-inner">
+              Yes, Spottix is completely free for all citizens. Download the app and start reporting civic issues immediately without any subscription fees.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Q2 -->
+        <div class="faq-item faq-premium-item fade-up">
+          <button class="faq-question faq-question-btn" aria-expanded="false">
+            <span>Can I report issues anonymously?</span>
+            <div class="faq-toggle-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </div>
+          </button>
+          <div class="faq-answer faq-answer-panel">
+            <div class="faq-answer-inner">
+              You can report issues with your verified profile to help build accountability. However, your personal details remain private and are only visible to ward officers.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Q3 -->
+        <div class="faq-item faq-premium-item fade-up">
+          <button class="faq-question faq-question-btn" aria-expanded="false">
+            <span>Which cities are currently supported?</span>
+            <div class="faq-toggle-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </div>
+          </button>
+          <div class="faq-answer faq-answer-panel">
+            <div class="faq-answer-inner">
+              Spottix is currently live in Bengaluru with coverage across all 198 wards. We are actively working to expand to other major Indian cities soon.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Q4 -->
+        <div class="faq-item faq-premium-item fade-up">
+          <button class="faq-question faq-question-btn" aria-expanded="false">
+            <span>How is my location data used?</span>
+            <div class="faq-toggle-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </div>
+          </button>
+          <div class="faq-answer faq-answer-panel">
+            <div class="faq-answer-inner">
+              Location data is only used to accurately tag your civic issue reports and help ward officers identify the exact location. We do not track your movements or share location data with third parties.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Q5 -->
+        <div class="faq-item faq-premium-item fade-up">
+          <button class="faq-question faq-question-btn" aria-expanded="false">
+            <span>How quickly are issues resolved?</span>
+            <div class="faq-toggle-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </div>
+          </button>
+          <div class="faq-answer faq-answer-panel">
+            <div class="faq-answer-inner">
+              Resolution time varies by issue type and ward. On average, 95% of reported issues are resolved within 2-5 days. You can track live status updates in the app.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. FOOTER SECTION -->
+  <footer class="footer-redesign">
+    <div class="container">
+      <a href="#" class="footer-center-logo">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span>Spottix</span>
+      </a>
+      
+      <h3 class="footer-heading-cta">Make Your Neighbourhood Cleaner with Spottix</h3>
+      
+      <!-- Email Support box -->
+      <div class="footer-email-box">
+        <input type="email" placeholder="support@spottix.app" readonly>
+        <button class="footer-email-btn" onclick="window.location.href='mailto:support@spottix.app'">Email Support</button>
+      </div>
+      
+      <ul class="footer-nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#live-map">Live Map</a></li>
+        <li><a href="#community">Community</a></li>
+        <li><a href="#faq">FAQs</a></li>
+      </ul>
+      
+      <!-- Social icons -->
+      <div class="footer-social-row">
+        <a href="#" class="footer-social-btn" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
           </svg>
-          <span>Spottix</span>
         </a>
-        <p class="footer-tagline">Spot it. Report it. Fix it.</p>
-        <div class="footer-social">
-          <a href="#" aria-label="Facebook">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-            </svg>
-          </a>
-          <a href="#" aria-label="Twitter">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
-            </svg>
-          </a>
-          <a href="#" aria-label="Instagram">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-            </svg>
-          </a>
-          <a href="#" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-              <rect x="2" y="9" width="4" height="12"/>
-              <circle cx="4" cy="4" r="2"/>
-            </svg>
-          </a>
-        </div>
+        <a href="#" class="footer-social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+        <a href="#" class="footer-social-btn" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+        <a href="#" class="footer-social-btn" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.108C19.524 3.545 12 3.545 12 3.545s-7.525 0-9.388.51a3.003 3.003 0 0 0-2.11 2.108C0 8.028 0 12 0 12s0 3.972.502 5.837a3.003 3.003 0 0 0 2.11 2.108c1.863.51 9.388.51 9.388.51s7.524 0 9.388-.51a3.002 3.002 0 0 0 2.11-2.108c.502-1.865.502-5.837.502-5.837s0-3.972-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        </a>
       </div>
       
-      <div class="footer-links">
-        <div class="footer-column">
-          <h4>Navigation</h4>
-          <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#live-map">Live Map</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h4>Community</h4>
-          <ul>
-            <li><a href="#community">Leaderboard</a></li>
-            <li><a href="#community">Gamification</a></li>
-            <li><a href="#in-action">App Showcase</a></li>
-            <li><a href="#faq">FAQ</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms & Conditions</a></li>
-            <li><a href="#">Cookie Policy</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h4>Contact</h4>
-          <ul>
-            <li><a href="mailto:support@spottix.app">support@spottix.app</a></li>
-            <li><a href="tel:+918012345678">+91 80 1234 5678</a></li>
-          </ul>
-        </div>
-      </div>
+      <p class="footer-copyright-text">© 2026 Spottix — Designed & Developed by Himalya NextGen</p>
     </div>
-    
-    <div class="footer-bottom">
-      <p>© 2026 Spottix — Designed & Developed by Himalya NextGen</p>
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="script.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

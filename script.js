@@ -161,6 +161,7 @@ const faqItems = document.querySelectorAll('.faq-item');
 
 faqItems.forEach(item => {
   const question = item.querySelector('.faq-question');
+  const answerPanel = item.querySelector('.faq-answer');
   
   question.addEventListener('click', () => {
     const isActive = item.classList.contains('active');
@@ -168,11 +169,23 @@ faqItems.forEach(item => {
     // Close all FAQ items
     faqItems.forEach(faq => {
       faq.classList.remove('active');
+      const panel = faq.querySelector('.faq-answer');
+      if (panel) {
+        panel.style.maxHeight = null;
+      }
+      const qBtn = faq.querySelector('.faq-question');
+      if (qBtn) {
+        qBtn.setAttribute('aria-expanded', 'false');
+      }
     });
     
     // Open clicked item if it wasn't active
     if (!isActive) {
       item.classList.add('active');
+      if (answerPanel) {
+        answerPanel.style.maxHeight = answerPanel.scrollHeight + 'px';
+      }
+      question.setAttribute('aria-expanded', 'true');
     }
   });
 });
@@ -203,8 +216,8 @@ function initMap() {
     attributionControl: false
   });
   
-  // Light themed tile layer
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  // Dark themed tile layer
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
     subdomains: 'abcd',
     maxZoom: 19,
@@ -249,11 +262,11 @@ function initMap() {
     });
     
     marker.bindPopup(`
-      <div style="color: #000; padding: 8px;">
-        <strong>${ward.name}</strong><br>
-        <span style="color: ${color};">Resolution Rate: ${ward.resolved}%</span><br>
-        Active Issues: ${ward.active}<br>
-        Total Reports: ${ward.total}
+      <div style="color: #fff; padding: 6px; font-family: 'Inter', sans-serif;">
+        <strong style="font-size: 13px; display: block; margin-bottom: 4px;">${ward.name}</strong>
+        <span style="color: ${color}; font-weight: 700; display: block; margin-bottom: 2px;">Resolution Rate: ${ward.resolved}%</span>
+        <span style="display: block; opacity: 0.9;">Active Issues: ${ward.active}</span>
+        <span style="display: block; opacity: 0.9;">Total Reports: ${ward.total}</span>
       </div>
     `);
     

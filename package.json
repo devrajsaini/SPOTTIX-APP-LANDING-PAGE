@@ -1,0 +1,12 @@
+{
+  "name": "spottix-app-landing-page",
+  "version": "1.0.0",
+  "description": "Spottix app landing page",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
