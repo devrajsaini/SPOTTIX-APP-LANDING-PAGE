@@ -1,539 +1,263 @@
-// ===== SPOTTIX - MAIN JAVASCRIPT =====
+// ===== SPOTTIX - PREMIUM CLIENT JAVASCRIPT =====
+import { getWardData } from './wardData.js';
 
-// Navbar Scroll Effect
-window.addEventListener('scroll', () => {
-  const navbar = document.getElementById('navbar');
+// Navbar Scroll Effect & Active Section Tracking
+const navbar = document.getElementById('navbar');
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+function handleScroll() {
+  // Shrink navbar
   if (window.scrollY > 50) {
     navbar.classList.add('scrolled');
   } else {
     navbar.classList.remove('scrolled');
   }
   
-  // Update active nav link
-  updateActiveNavLink();
-});
-
-// Update Active Navigation Link
-function updateActiveNavLink() {
-  const sections = document.querySelectorAll('section[id]');
-  const scrollY = window.scrollY;
+  // Highlight active section link
+  let currentActive = '';
+  const scrollPosition = window.scrollY + 120; // offset for nav height
   
   sections.forEach(section => {
+    const sectionTop = section.offsetTop;
     const sectionHeight = section.offsetHeight;
-    const sectionTop = section.offsetTop - 100;
-    const sectionId = section.getAttribute('id');
-    const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-    
-    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-      document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-      if (navLink) {
-        navLink.classList.add('active');
-      }
+    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+      currentActive = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === `#${currentActive}`) {
+      link.classList.add('active');
     }
   });
 }
 
-// Mobile Menu Toggle
+// Debounce helper for scrolling performance
+let scrollTimer = null;
+window.addEventListener('scroll', () => {
+  if (scrollTimer) window.cancelAnimationFrame(scrollTimer);
+  scrollTimer = window.requestAnimationFrame(handleScroll);
+}, { passive: true });
+
+// Mobile Menu Toggle logic
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 const mobileLinks = document.querySelectorAll('.mobile-link');
 
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  mobileMenu.classList.toggle('active');
-});
+function toggleMobileMenu() {
+  const isOpen = hamburger.classList.contains('active');
+  hamburger.classList.toggle('active', !isOpen);
+  mobileMenu.classList.toggle('active', !isOpen);
+  hamburger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+  mobileMenu.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+  document.body.classList.toggle('menu-open', !isOpen);
+}
 
-// Close mobile menu when clicking a link
-mobileLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    mobileMenu.classList.remove('active');
-  });
-});
+function closeMobileMenu() {
+  hamburger.classList.remove('active');
+  mobileMenu.classList.remove('active');
+  hamburger.setAttribute('aria-expanded', 'false');
+  mobileMenu.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('menu-open');
+}
 
-// Close mobile menu when clicking outside
+hamburger.addEventListener('click', toggleMobileMenu);
+mobileLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
+
+// Close mobile menu on Esc key or clicking outside
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMobileMenu();
+});
 document.addEventListener('click', (e) => {
   if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
-    hamburger.classList.remove('active');
-    mobileMenu.classList.remove('active');
+    closeMobileMenu();
   }
 });
 
-// Smooth Scroll for Navigation Links
+// Smooth scrolling with offsets
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
+  anchor.addEventListener('click', function(e) {
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    
+    const target = document.querySelector(targetId);
     if (target) {
-      const offsetTop = target.offsetTop - 80;
+      e.preventDefault();
+      closeMobileMenu();
+      
+      const offset = 84; // Navbar height + gap
+      const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+      
       window.scrollTo({
-        top: offsetTop,
+        top: targetPosition,
         behavior: 'smooth'
       });
     }
   });
 });
 
-// Animated Counter
-function animateCounter(element, target, duration = 2000) {
-  // Check for reduced motion preference
+// Counter Count-up Animation
+function animateCounter(element, target, suffix = '', duration = 1600) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    element.textContent = formatNumber(target);
+    element.textContent = target.toLocaleString() + suffix;
     return;
   }
   
-  const start = 0;
-  const increment = target / (duration / 16);
-  let current = start;
+  let startTime = null;
+  const startValue = 0;
   
-  const timer = setInterval(() => {
-    current += increment;
-    if (current >= target) {
-      element.textContent = formatNumber(target);
-      clearInterval(timer);
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    // Easing out cubic
+    const progressEase = 1 - Math.pow(1 - progress, 3);
+    const value = Math.floor(progressEase * (target - startValue) + startValue);
+    element.textContent = value.toLocaleString() + suffix;
+    
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
     } else {
-      element.textContent = formatNumber(Math.floor(current));
+      element.textContent = target.toLocaleString() + suffix;
     }
-  }, 16);
-}
-
-function formatNumber(num) {
-  if (num >= 1000) {
-    return (num / 1000).toFixed(0) + 'K+';
   }
-  return num.toString();
+  
+  window.requestAnimationFrame(step);
 }
 
-// Intersection Observer for Animations
-const observerOptions = {
-  threshold: 0.15,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
+// Intersection Observer for Statistics counters and Fade Up Reveals
+const statObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
+      const element = entry.target;
+      let target = parseInt(element.getAttribute('data-target')) || 0;
+      const suffix = element.getAttribute('data-suffix') || '';
       
-      // Animate counters
-      if (entry.target.classList.contains('stat-value') || 
-          entry.target.classList.contains('impact-value')) {
-        const target = parseInt(entry.target.getAttribute('data-target'));
-        if (target) {
-          animateCounter(entry.target, target);
-        }
+      // Standardize 10000 -> 10K+ if it has K in suffix
+      if (suffix.includes('K') && target >= 1000) {
+        target = target / 1000;
       }
       
-      observer.unobserve(entry.target);
+      animateCounter(element, target, suffix);
+      statObserver.unobserve(element);
     }
   });
-}, observerOptions);
+}, { threshold: 0.1 });
 
-// Observe all fade-up elements
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
 document.addEventListener('DOMContentLoaded', () => {
-  const fadeElements = document.querySelectorAll('.fade-up');
-  fadeElements.forEach(el => {
-    observer.observe(el);
+  document.querySelectorAll('.impact-counter').forEach(el => statObserver.observe(el));
+  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+});
+
+// App Showcase Tabs logic (with Auto-rotation and Hover pause)
+const tabPills = document.querySelectorAll('.app-tab-pill');
+const tabPanels = document.querySelectorAll('.app-tab-panel');
+let currentTabIdx = 0;
+let tabInterval = null;
+let tabRotationPaused = false;
+
+function showTab(idx) {
+  tabPills.forEach((pill, i) => {
+    const active = i === idx;
+    pill.classList.toggle('active', active);
+    pill.setAttribute('aria-selected', active ? 'true' : 'false');
   });
-  
-  // Observe counter elements
-  const statValues = document.querySelectorAll('.stat-value, .impact-value');
-  statValues.forEach(el => {
-    observer.observe(el);
+  tabPanels.forEach((panel, i) => {
+    panel.classList.toggle('active', i === idx);
+  });
+  currentTabIdx = idx;
+}
+
+function startTabRotation() {
+  if (tabInterval) clearInterval(tabInterval);
+  tabInterval = setInterval(() => {
+    if (!tabRotationPaused) {
+      const nextIdx = (currentTabIdx + 1) % tabPills.length;
+      showTab(nextIdx);
+    }
+  }, 5000);
+}
+
+tabPills.forEach((pill, idx) => {
+  pill.addEventListener('click', () => {
+    showTab(idx);
+    startTabRotation(); // Reset timer on manual click
   });
 });
 
-// Leaderboard Tabs
-const tabBtns = document.querySelectorAll('.tab-btn');
-const tabContents = document.querySelectorAll('.tab-content');
+const showcaseSection = document.getElementById('in-action');
+if (showcaseSection) {
+  showcaseSection.addEventListener('mouseenter', () => tabRotationPaused = true);
+  showcaseSection.addEventListener('mouseleave', () => tabRotationPaused = false);
+}
+startTabRotation();
 
-tabBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tabName = btn.getAttribute('data-tab');
-    
-    // Remove active class from all tabs
-    tabBtns.forEach(b => b.classList.remove('active'));
-    tabContents.forEach(c => c.classList.remove('active'));
-    
-    // Add active class to clicked tab
-    btn.classList.add('active');
-    document.getElementById(`${tabName}-tab`).classList.add('active');
-  });
-});
-
-// FAQ Accordion
-const faqItems = document.querySelectorAll('.faq-premium-item');
-
+// FAQ Accordion Toggle with ARIA Attributes and smooth transitions
+const faqItems = document.querySelectorAll('.faq-item');
 faqItems.forEach(item => {
-  const button = item.querySelector('.faq-question-btn');
+  const btn = item.querySelector('.faq-question-btn');
   const panel = item.querySelector('.faq-answer-panel');
   
-  if (button && panel) {
-    button.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
+  if (btn && panel) {
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
       
-      // Close all FAQ items
-      faqItems.forEach(faq => {
-        faq.classList.remove('active');
-        const p = faq.querySelector('.faq-answer-panel');
-        if (p) {
-          p.style.maxHeight = null;
-        }
-        const btn = faq.querySelector('.faq-question-btn');
-        if (btn) {
-          btn.setAttribute('aria-expanded', 'false');
+      // Close other questions
+      faqItems.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('active');
+          const otherBtn = otherItem.querySelector('.faq-question-btn');
+          const otherPanel = otherItem.querySelector('.faq-answer-panel');
+          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+          if (otherPanel) otherPanel.style.maxHeight = null;
         }
       });
       
-      // Open clicked item if it wasn't active
-      if (!isActive) {
-        item.classList.add('active');
-        if (panel) {
-          panel.style.maxHeight = panel.scrollHeight + 'px';
-        }
-        button.setAttribute('aria-expanded', 'true');
-      }
+      // Toggle current question
+      item.classList.toggle('active', !isExpanded);
+      btn.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+      panel.style.maxHeight = !isExpanded ? panel.scrollHeight + 'px' : null;
     });
   }
 });
 
-// Bengaluru Map with Leaflet
-let map;
-let markers = [];
+// Community Gamification Tab toggler
+const lbTabs = document.querySelectorAll('.leaderboard-section .tab-btn');
+const lbPanels = document.querySelectorAll('.leaderboard-section .tab-content');
 
-function initMap() {
-  // Bengaluru center coordinates
-  const bengaluruCenter = [12.9716, 77.5946];
-  
-  // Bengaluru bounds (Southwest and Northeast corners)
-  const bengaluruBounds = L.latLngBounds(
-    [12.7343, 77.3792], // Southwest
-    [13.1737, 77.8470]  // Northeast
-  );
-  
-  // Initialize map centered on Bengaluru with bounds restriction
-  map = L.map('bengaluruMap', {
-    center: bengaluruCenter,
-    zoom: 11,
-    minZoom: 11,
-    maxZoom: 17,
-    maxBounds: bengaluruBounds,
-    maxBoundsViscosity: 1.0,
-    zoomControl: true,
-    attributionControl: false
-  });
-  
-  // Dark themed tile layer
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-    subdomains: 'abcd',
-    maxZoom: 19,
-    noWrap: true
-  }).addTo(map);
-  
-  // Fit map to Bengaluru bounds
-  map.fitBounds(bengaluruBounds);
-  map.setMaxBounds(bengaluruBounds);
-  
-  // Sample ward data with resolution rates
-  const wardData = [
-    { name: 'Koramangala (Ward 186)', lat: 12.9352, lng: 77.6245, resolved: 98, active: 8, total: 432 },
-    { name: 'Indiranagar (Ward 154)', lat: 12.9716, lng: 77.6412, resolved: 96, active: 12, total: 398 },
-    { name: 'Whitefield (Ward 92)', lat: 12.9698, lng: 77.7499, resolved: 92, active: 18, total: 356 },
-    { name: 'Jayanagar (Ward 78)', lat: 12.9250, lng: 77.5838, resolved: 94, active: 15, total: 375 },
-    { name: 'HSR Layout (Ward 110)', lat: 12.9121, lng: 77.6446, resolved: 91, active: 20, total: 341 },
-    { name: 'HSR - Singasandra (Ward 159)', lat: 12.9108, lng: 77.6289, resolved: 65, active: 14, total: 223 },
-    { name: 'Malleswaram (Ward 67)', lat: 13.0031, lng: 77.5703, resolved: 88, active: 22, total: 312 },
-    { name: 'Electronic City (Ward 195)', lat: 12.8456, lng: 77.6603, resolved: 85, active: 28, total: 298 }
-  ];
-  
-  // Filter out red markers (resolution rate below 60%)
-  const visibleReports = wardData.filter(ward => {
-    return ward.resolved >= 60;
-  });
-  
-  // Add markers only for visible reports (green and yellow)
-  visibleReports.forEach(ward => {
-    const color = getMarkerColor(ward.resolved);
-    const marker = L.circleMarker([ward.lat, ward.lng], {
-      radius: 10,
-      fillColor: color,
-      color: color,
-      weight: 2,
-      opacity: 0.8,
-      fillOpacity: 0.6
-    }).addTo(map);
+lbTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const targetId = tab.getAttribute('data-tab');
+    lbTabs.forEach(t => t.classList.remove('active'));
+    lbPanels.forEach(p => p.classList.remove('active'));
     
-    marker.on('click', () => {
-      updateWardStatistics(ward);
-    });
-    
-    marker.bindPopup(`
-      <div style="color: #fff; padding: 6px; font-family: 'Inter', sans-serif;">
-        <strong style="font-size: 13px; display: block; margin-bottom: 4px;">${ward.name}</strong>
-        <span style="color: ${color}; font-weight: 700; display: block; margin-bottom: 2px;">Resolution Rate: ${ward.resolved}%</span>
-        <span style="display: block; opacity: 0.9;">Active Issues: ${ward.active}</span>
-        <span style="display: block; opacity: 0.9;">Total Reports: ${ward.total}</span>
-      </div>
-    `);
-    
-    markers.push({ marker, data: ward });
+    tab.classList.add('active');
+    document.getElementById(targetId).classList.add('active');
   });
-}
+});
 
-function getMarkerColor(resolved) {
-  if (resolved >= 80) return '#22c55e'; // Green
-  if (resolved >= 60) return '#f59e0b'; // Amber/Yellow
-  return null; // No marker for red (below 60%)
-}
-
-function getStatusBadgeClass(resolved) {
-  if (resolved >= 80) return 'green';
-  if (resolved >= 60) return 'amber';
-  return 'amber'; // Default to amber instead of red
-}
-
-function getStatusText(resolved) {
-  if (resolved >= 80) return 'Green (Excellent)';
-  if (resolved >= 60) return 'Amber (Good)';
-  return 'Amber (Good)'; // Default to amber instead of red
-}
-
-function updateWardStatistics(ward) {
-  const wardStats = document.getElementById('wardStats');
-  const statusBadge = wardStats.querySelector('.status-badge');
-  const wardName = wardStats.querySelector('.ward-name');
-  const wardLocation = wardStats.querySelector('.ward-location');
-  const progressValue = wardStats.querySelector('.progress-value');
-  const progressFill = wardStats.querySelector('.progress-fill');
-  const activeIssues = wardStats.querySelectorAll('.stat-value')[0];
-  const resolvedIssues = wardStats.querySelectorAll('.stat-value')[1];
-  const totalReports = wardStats.querySelectorAll('.stat-value')[2];
-  const avgTime = wardStats.querySelectorAll('.stat-value')[3];
-  
-  // Update status badge
-  const statusClass = getStatusBadgeClass(ward.resolved);
-  const statusText = getStatusText(ward.resolved);
-  statusBadge.className = `status-badge ${statusClass}`;
-  statusBadge.textContent = statusText;
-  
-  // Update ward info
-  wardName.textContent = ward.name;
-  wardLocation.textContent = 'Bengaluru';
-  
-  // Update resolution rate
-  progressValue.textContent = `${ward.resolved}%`;
-  progressFill.style.width = `${ward.resolved}%`;
-  
-  // Update statistics
-  activeIssues.textContent = ward.active;
-  activeIssues.className = 'stat-value red';
-  
-  const resolvedCount = Math.floor((ward.total * ward.resolved) / 100);
-  resolvedIssues.textContent = resolvedCount;
-  resolvedIssues.className = 'stat-value green';
-  
-  totalReports.textContent = ward.total;
-  totalReports.className = 'stat-value';
-  
-  const avgDays = (2 + Math.random() * 2).toFixed(1);
-  avgTime.textContent = `${avgDays} Days`;
-  avgTime.className = 'stat-value';
-}
-
-// Back to Overview Button
-const backToOverviewBtn = document.getElementById('backToOverview');
-if (backToOverviewBtn) {
-  backToOverviewBtn.addEventListener('click', () => {
-    if (map) {
-      const bengaluruCenter = [12.9716, 77.5946];
-      map.setView(bengaluruCenter, 11);
-    }
-  });
-}
-
-// Initialize map when DOM is loaded
+// Before/After Image Slider Dragging and Selection
 document.addEventListener('DOMContentLoaded', () => {
-  const mapElement = document.getElementById('bengaluruMap');
-  if (mapElement) {
-    initMap();
-  }
-});
-
-// Horizontal Showcase Slider for Mobile
-const showcaseTrack = document.getElementById('showcaseTrack');
-
-if (showcaseTrack && window.innerWidth <= 768) {
-  let isDown = false;
-  let startX;
-  let scrollLeft;
-  
-  showcaseTrack.addEventListener('mousedown', (e) => {
-    isDown = true;
-    startX = e.pageX - showcaseTrack.offsetLeft;
-    scrollLeft = showcaseTrack.scrollLeft;
-  });
-  
-  showcaseTrack.addEventListener('mouseleave', () => {
-    isDown = false;
-  });
-  
-  showcaseTrack.addEventListener('mouseup', () => {
-    isDown = false;
-  });
-  
-  showcaseTrack.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - showcaseTrack.offsetLeft;
-    const walk = (x - startX) * 2;
-    showcaseTrack.scrollLeft = scrollLeft - walk;
-  });
-  
-  // Touch events for mobile
-  let touchStartX = 0;
-  let touchScrollLeft = 0;
-  
-  showcaseTrack.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].pageX - showcaseTrack.offsetLeft;
-    touchScrollLeft = showcaseTrack.scrollLeft;
-  });
-  
-  showcaseTrack.addEventListener('touchmove', (e) => {
-    const x = e.touches[0].pageX - showcaseTrack.offsetLeft;
-    const walk = (x - touchStartX) * 2;
-    showcaseTrack.scrollLeft = touchScrollLeft - walk;
-  });
-}
-
-// Lazy Loading Images
-if ('IntersectionObserver' in window) {
-  const imageObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        img.src = img.dataset.src || img.src;
-        img.classList.remove('lazy');
-        imageObserver.unobserve(img);
-      }
-    });
-  });
-  
-  document.querySelectorAll('img[loading="lazy"]').forEach(img => {
-    imageObserver.observe(img);
-  });
-}
-
-// Prevent horizontal overflow
-function preventOverflow() {
-  const body = document.body;
-  const html = document.documentElement;
-  
-  if (body.scrollWidth > window.innerWidth) {
-    console.warn('Horizontal overflow detected');
-  }
-}
-
-window.addEventListener('load', preventOverflow);
-window.addEventListener('resize', preventOverflow);
-
-// Console Welcome Message
-console.log('%cSpottix', 'color: #22c55e; font-size: 24px; font-weight: bold;');
-console.log('%cReport. Track. Transform.', 'color: #94a3b8; font-size: 14px;');
-console.log('%c© 2026 Spottix — Designed & Developed by Himalya NextGen', 'color: #64748b; font-size: 12px;');
-
-// Accessibility: Keyboard Navigation
-document.addEventListener('keydown', (e) => {
-  // ESC key closes mobile menu
-  if (e.key === 'Escape') {
-    if (mobileMenu.classList.contains('active')) {
-      hamburger.classList.remove('active');
-      mobileMenu.classList.remove('active');
-    }
-  }
-});
-
-// Add focus visible styles
-document.addEventListener('mousedown', () => {
-  document.body.classList.add('using-mouse');
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Tab') {
-    document.body.classList.remove('using-mouse');
-  }
-});
-
-// Performance: Debounce scroll events
-let scrollTimeout;
-window.addEventListener('scroll', () => {
-  if (scrollTimeout) {
-    window.cancelAnimationFrame(scrollTimeout);
-  }
-  
-  scrollTimeout = window.requestAnimationFrame(() => {
-    // Additional scroll-based logic can go here
-  });
-}, { passive: true });
-
-// Error Handling for Map
-window.addEventListener('error', (e) => {
-  if (e.message && e.message.includes('Leaflet')) {
-    console.error('Map initialization error. Please check Leaflet library.');
-  }
-});
-
-// Check for reduced motion preference
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-if (prefersReducedMotion.matches) {
-  // Disable animations for users who prefer reduced motion
-  document.querySelectorAll('.fade-up, .phone-mockup, .cta-phone').forEach(el => {
-    el.style.animation = 'none';
-  });
-}
-
-// Update copyright year dynamically
-const copyrightYear = new Date().getFullYear();
-const footerBottomText = document.querySelector('.footer-bottom p');
-if (footerBottomText && copyrightYear > 2026) {
-  footerBottomText.textContent = footerBottomText.textContent.replace('2026', copyrightYear);
-}
-
-// Analytics Ready Event
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('Spottix landing page loaded successfully');
-  
-  // Track page load time for performance monitoring
-  if (window.performance) {
-    const loadTime = performance.now();
-    console.log(`Page load time: ${loadTime.toFixed(2)}ms`);
-  }
-});
-
-// Service Worker Registration (if available)
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    // Uncomment to enable service worker
-    // navigator.serviceWorker.register('/sw.js')
-    //   .then(reg => console.log('Service Worker registered'))
-    //   .catch(err => console.log('Service Worker registration failed'));
-  });
-}
-
-// Before/After Image Comparison Slider
-document.addEventListener('DOMContentLoaded', () => {
-  const slider = document.getElementById('imageComparisonSlider');
+  const slider = document.getElementById('comparisonSlider');
   const handle = document.getElementById('sliderHandle');
-  const overlay = document.getElementById('beforeImageOverlay');
+  const overlay = document.getElementById('beforeOverlay');
   
   if (slider && handle && overlay) {
     let isDragging = false;
     
-    function updateSlider(x) {
+    function updateSlider(clientX) {
       const rect = slider.getBoundingClientRect();
-      const offsetX = x - rect.left;
+      const offsetX = clientX - rect.left;
       const percentage = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
       
       overlay.style.width = percentage + '%';
@@ -541,7 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
       handle.setAttribute('aria-valuenow', Math.round(percentage));
     }
     
-    // Mouse events
     slider.addEventListener('mousedown', (e) => {
       isDragging = true;
       updateSlider(e.clientX);
@@ -555,32 +278,32 @@ document.addEventListener('DOMContentLoaded', () => {
       isDragging = false;
     });
     
-    // Touch events
     slider.addEventListener('touchstart', (e) => {
       isDragging = true;
-    });
+      updateSlider(e.touches[0].clientX);
+    }, { passive: true });
     
     slider.addEventListener('touchmove', (e) => {
       if (isDragging) updateSlider(e.touches[0].clientX);
-    });
+    }, { passive: true });
     
     slider.addEventListener('touchend', () => {
       isDragging = false;
     });
     
-    // Keyboard events
     handle.addEventListener('keydown', (e) => {
       const currentValue = parseInt(handle.getAttribute('aria-valuenow') || '50');
       if (e.key === 'ArrowLeft') {
-        updateSlider(((currentValue - 5) / 100) * slider.offsetWidth + slider.getBoundingClientRect().left);
+        const newVal = Math.max(0, currentValue - 5);
+        updateSlider((newVal / 100) * slider.offsetWidth + slider.getBoundingClientRect().left);
       } else if (e.key === 'ArrowRight') {
-        updateSlider(((currentValue + 5) / 100) * slider.offsetWidth + slider.getBoundingClientRect().left);
+        const newVal = Math.min(100, currentValue + 5);
+        updateSlider((newVal / 100) * slider.offsetWidth + slider.getBoundingClientRect().left);
       }
     });
     
-    // Initialize handle with ARIA attributes
     handle.setAttribute('role', 'slider');
-    handle.setAttribute('aria-label', 'Image comparison slider');
+    handle.setAttribute('aria-label', 'Before and after comparison slider');
     handle.setAttribute('aria-valuemin', '0');
     handle.setAttribute('aria-valuemax', '100');
     handle.setAttribute('aria-valuenow', '50');
@@ -588,12 +311,329 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Export functions for testing (if needed)
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    animateCounter,
-    formatNumber,
-    getMarkerColor,
-    updateWardStatistics
-  };
+// Expose comparison pair switches to window object
+window.setPair = function(type) {
+  const beforeImg = document.getElementById('beforeImg');
+  const afterImg = document.getElementById('afterImg');
+  const pairGarbage = document.getElementById('pairGarbage');
+  const pairLight = document.getElementById('pairLight');
+  const cards = document.querySelectorAll('.slider-info-card');
+  
+  if (!beforeImg || !afterImg || !pairGarbage || !pairLight) return;
+  
+  if (type === 'garbage') {
+    beforeImg.src = './assets/before_garbage_pile.png';
+    afterImg.src = './assets/after_clean_road.png';
+    
+    pairGarbage.style.background = 'var(--accent-green-light)';
+    pairGarbage.style.borderColor = 'var(--accent-green)';
+    pairGarbage.style.color = 'var(--accent-green-dark)';
+    
+    pairLight.style.background = 'var(--bg-secondary)';
+    pairLight.style.borderColor = 'var(--card-border)';
+    pairLight.style.color = 'var(--text-body)';
+    
+    if (cards.length >= 2) {
+      cards[0].innerHTML = `
+        <h4>🗑 Before</h4>
+        <ul>
+          <li>Uncleared garbage for 3 days</li>
+          <li>Health hazard for residents</li>
+          <li>No response from authorities</li>
+        </ul>
+      `;
+      cards[1].innerHTML = `
+        <h4>✅ After Spottix</h4>
+        <ul>
+          <li>Reported via Spottix app</li>
+          <li>Cleared within 18 hours</li>
+          <li>Citizen earned 50 points</li>
+        </ul>
+      `;
+    }
+  } else if (type === 'light') {
+    beforeImg.src = './assets/before_broken_streetlight.png';
+    afterImg.src = './assets/after_working_streetlight.png';
+    
+    pairLight.style.background = 'var(--accent-green-light)';
+    pairLight.style.borderColor = 'var(--accent-green)';
+    pairLight.style.color = 'var(--accent-green-dark)';
+    
+    pairGarbage.style.background = 'var(--bg-secondary)';
+    pairGarbage.style.borderColor = 'var(--card-border)';
+    pairGarbage.style.color = 'var(--text-body)';
+    
+    if (cards.length >= 2) {
+      cards[0].innerHTML = `
+        <h4>💡 Before</h4>
+        <ul>
+          <li>Broken streetlight for 2 weeks</li>
+          <li>Unsafe dark road at night</li>
+          <li>Increased safety concerns</li>
+        </ul>
+      `;
+      cards[1].innerHTML = `
+        <h4>✅ After Spottix</h4>
+        <ul>
+          <li>Reported via Spottix app</li>
+          <li>Replaced within 24 hours</li>
+          <li>Citizen earned 30 points</li>
+        </ul>
+      `;
+    }
+  }
+};
+
+// Initial state for before/after tags
+document.addEventListener('DOMContentLoaded', () => {
+  window.setPair('garbage');
+});
+
+// Interactive Bengaluru Ward Map (Leaflet)
+let map = null;
+let geoJsonLayer = null;
+
+function showWardDetails(properties, data) {
+  const mapOverview = document.getElementById('mapOverview');
+  const wardDetail = document.getElementById('wardDetail');
+  
+  if (mapOverview && wardDetail) {
+    mapOverview.style.display = 'none';
+    wardDetail.style.display = 'block';
+    
+    document.getElementById('wardName').textContent = properties.KGISWardName || 'Unknown Ward';
+    document.getElementById('wardNum').textContent = properties.KGISWardNo || 'N/A';
+    document.getElementById('wardReports').textContent = (data.resolvedIssues + data.activeIssues).toLocaleString();
+    document.getElementById('wardOpen').textContent = data.activeIssues.toLocaleString();
+    document.getElementById('wardResolved').textContent = data.resolvedIssues.toLocaleString();
+    document.getElementById('wardRate').textContent = data.resolutionRate + '%';
+    
+    // Deterministic top issue based on ward name
+    const issues = ['Garbage Dumping', 'Sewage Overflow', 'Broken Streetlights', 'Road Potholes'];
+    let hash = 0;
+    const name = properties.KGISWardName || '';
+    for (let i = 0; i < name.length; i++) {
+      hash = (hash * 31 + name.charCodeAt(i)) & 0xffff;
+    }
+    const topIssue = issues[hash % issues.length];
+    document.getElementById('wardTopIssue').textContent = topIssue;
+  }
 }
+
+function renderFallbackMarkers() {
+  const fallbackWards = [
+    { name: 'Koramangala (Ward 150)', lat: 12.9352, lng: 77.6245, resolved: 76, active: 28, total: 323 },
+    { name: 'Indiranagar (Ward 81)', lat: 12.9716, lng: 77.6412, resolved: 88, active: 9, total: 437 },
+    { name: 'Whitefield (Ward 84)', lat: 12.9698, lng: 77.7499, resolved: 52, active: 78, total: 272 },
+    { name: 'Jayanagar (Ward 167)', lat: 12.9250, lng: 77.5838, resolved: 83, active: 21, total: 333 },
+    { name: 'HSR Layout (Ward 151)', lat: 12.9121, lng: 77.6446, resolved: 92, active: 14, total: 356 },
+    { name: 'Malleswaram (Ward 10)', lat: 13.0031, lng: 77.5703, resolved: 91, active: 11, total: 326 },
+    { name: 'Yelahanka (Ward 5)', lat: 13.1008, lng: 77.5946, resolved: 85, active: 16, total: 226 }
+  ];
+  
+  fallbackWards.forEach(ward => {
+    const rate = ward.resolved;
+    const color = rate >= 80 ? '#22c55e' : (rate >= 60 ? '#f59e0b' : '#ef4444');
+    
+    const marker = L.circleMarker([ward.lat, ward.lng], {
+      radius: 12,
+      fillColor: color,
+      color: '#ffffff',
+      weight: 2,
+      opacity: 0.9,
+      fillOpacity: 0.7
+    }).addTo(map);
+    
+    marker.on('click', () => {
+      showWardDetails({ KGISWardName: ward.name.split(' (')[0], KGISWardNo: ward.name.match(/\d+/)[0] }, {
+        resolvedIssues: ward.total - ward.active,
+        activeIssues: ward.active,
+        resolutionRate: ward.resolved
+      });
+      map.setView([ward.lat, ward.lng], 13);
+    });
+    
+    marker.bindTooltip(ward.name + ` (${rate}% resolved)`, { sticky: true });
+  });
+}
+
+function initMap() {
+  const mapElement = document.getElementById('bengaluru-map');
+  if (!mapElement || map) return;
+  
+  const center = [12.9716, 77.5946];
+  const bounds = L.latLngBounds(
+    [12.7343, 77.3792],
+    [13.1737, 77.8470]
+  );
+  
+  map = L.map('bengaluru-map', {
+    center: center,
+    zoom: 11,
+    minZoom: 10,
+    maxZoom: 16,
+    maxBounds: bounds,
+    maxBoundsViscosity: 0.9,
+    zoomControl: true,
+    attributionControl: false
+  });
+  
+  // Light positron tile layer
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 20,
+    subdomains: 'abcd'
+  }).addTo(map);
+  
+  map.fitBounds(bounds);
+  
+  // Load GeoJSON dynamically
+  fetch('./assets/bbmp-wards.geojson')
+    .then(res => {
+      if (!res.ok) throw new Error('Network error');
+      return res.json();
+    })
+    .then(geojson => {
+      geoJsonLayer = L.geoJSON(geojson, {
+        style: (feature) => {
+          const wardName = feature.properties.KGISWardName;
+          const data = getWardData(wardName);
+          const rate = data.resolutionRate;
+          
+          let color = '#22c55e'; // Green
+          if (rate < 60) {
+            color = '#ef4444'; // Red
+          } else if (rate < 80) {
+            color = '#f59e0b'; // Amber
+          }
+          
+          return {
+            fillColor: color,
+            weight: 1.5,
+            opacity: 0.6,
+            color: '#ffffff',
+            fillOpacity: 0.25
+          };
+        },
+        onEachFeature: (feature, layer) => {
+          const wardName = feature.properties.KGISWardName;
+          const data = getWardData(wardName);
+          
+          layer.on('mouseover', () => {
+            layer.setStyle({
+              fillOpacity: 0.5,
+              weight: 2.5,
+              color: '#1a1f36'
+            });
+          });
+          
+          layer.on('mouseout', () => {
+            geoJsonLayer.resetStyle(layer);
+          });
+          
+          layer.on('click', () => {
+            showWardDetails(feature.properties, data);
+            
+            geoJsonLayer.resetStyle();
+            layer.setStyle({
+              fillOpacity: 0.65,
+              weight: 3,
+              color: 'var(--accent-green-dark)'
+            });
+            
+            map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+          });
+          
+          const tooltipContent = `
+            <div style="font-family:'Inter', sans-serif; padding: 4px;">
+              <strong style="font-size:13px; color:#1a1f36; display:block; margin-bottom:4px;">${wardName}</strong>
+              <span style="font-size:11px; color:#4a5568; display:block;">Ward No: ${feature.properties.KGISWardNo || 'N/A'}</span>
+              <span style="font-size:11px; font-weight:700; color:var(--accent-green-dark); display:block; margin-top:2px;">Resolution: ${data.resolutionRate}%</span>
+            </div>
+          `;
+          layer.bindTooltip(tooltipContent, { sticky: true });
+        }
+      }).addTo(map);
+    })
+    .catch(err => {
+      console.warn('Map GeoJSON loading failed, using fallback markers:', err);
+      renderFallbackMarkers();
+    });
+}
+
+// Lazy Load Map observer
+const mapSection = document.getElementById('live-map');
+if (mapSection) {
+  const mapObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        initMap();
+        mapObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  mapObserver.observe(mapSection);
+}
+
+// Back to overview Map button
+const mapBackBtn = document.getElementById('mapBackBtn');
+if (mapBackBtn) {
+  mapBackBtn.addEventListener('click', () => {
+    const mapOverview = document.getElementById('mapOverview');
+    const wardDetail = document.getElementById('wardDetail');
+    if (mapOverview && wardDetail) {
+      mapOverview.style.display = 'block';
+      wardDetail.style.display = 'none';
+      
+      if (map) {
+        const bounds = L.latLngBounds(
+          [12.7343, 77.3792],
+          [13.1737, 77.8470]
+        );
+        map.fitBounds(bounds);
+        if (geoJsonLayer) {
+          geoJsonLayer.resetStyle();
+        }
+      }
+    }
+  });
+}
+
+// Roadmap Progress Line update on scroll
+const roadmapSection = document.getElementById('how-it-works');
+const progressLine = document.getElementById('roadmapProgressLine');
+const roadmapSteps = document.querySelectorAll('.roadmap-step');
+
+function updateRoadmapProgress() {
+  if (!roadmapSection || !progressLine) return;
+  const rect = roadmapSection.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  
+  const totalHeight = rect.height;
+  const scrolled = windowHeight * 0.8 - rect.top;
+  const percentage = Math.max(0, Math.min(100, (scrolled / totalHeight) * 100));
+  
+  progressLine.style.width = percentage + '%';
+  
+  roadmapSteps.forEach((step, idx) => {
+    const stepRect = step.getBoundingClientRect();
+    if (stepRect.top < windowHeight * 0.65) {
+      step.classList.add('active');
+    } else {
+      if (idx > 0) step.classList.remove('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', () => {
+  window.requestAnimationFrame(updateRoadmapProgress);
+}, { passive: true });
+
+// Accessibility / Layout Adjustments
+document.addEventListener('DOMContentLoaded', () => {
+  // Update footer copyright year dynamically
+  const footerCopyright = document.querySelector('.footer-copyright');
+  const year = new Date().getFullYear();
+  if (footerCopyright && year > 2026) {
+    footerCopyright.innerHTML = footerCopyright.innerHTML.replace('2026', year);
+  }
+});

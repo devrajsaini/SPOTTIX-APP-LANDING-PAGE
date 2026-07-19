@@ -71,3 +71,7 @@ function getWardData(wardName) {
     resolvedIssues: 100 + (hash % 350),
   };
 }
+
+export default WARD_DATA;
+export { getWardData };
+
