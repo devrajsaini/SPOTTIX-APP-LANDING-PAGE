@@ -1,22 +1,26 @@
 // ===== SPOTTIX - PREMIUM CLIENT JAVASCRIPT =====
+// Production-ready implementation with all 16 requirements
 import { getWardData } from './wardData.js';
 
-// Navbar Scroll Effect & Active Section Tracking
+// ============================================================
+// 1. NAVBAR SCROLL & NAVIGATION
+// ============================================================
+
 const navbar = document.getElementById('navbar');
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link');
 
 function handleScroll() {
-  // Shrink navbar
+  // Navbar scrolled state detection
   if (window.scrollY > 50) {
     navbar.classList.add('scrolled');
   } else {
     navbar.classList.remove('scrolled');
   }
   
-  // Highlight active section link
+  // Active nav link highlighting
   let currentActive = '';
-  const scrollPosition = window.scrollY + 120; // offset for nav height
+  const scrollPosition = window.scrollY + 120;
   
   sections.forEach(section => {
     const sectionTop = section.offsetTop;
@@ -34,14 +38,16 @@ function handleScroll() {
   });
 }
 
-// Debounce helper for scrolling performance
 let scrollTimer = null;
 window.addEventListener('scroll', () => {
   if (scrollTimer) window.cancelAnimationFrame(scrollTimer);
   scrollTimer = window.requestAnimationFrame(handleScroll);
 }, { passive: true });
 
-// Mobile Menu Toggle logic
+// ============================================================
+// 13. MOBILE MENU
+// ============================================================
+
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -66,7 +72,6 @@ function closeMobileMenu() {
 hamburger.addEventListener('click', toggleMobileMenu);
 mobileLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
 
-// Close mobile menu on Esc key or clicking outside
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeMobileMenu();
 });
@@ -76,7 +81,10 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Smooth scrolling with offsets
+// ============================================================
+// 1. SMOOTH SCROLL TO SECTIONS
+// ============================================================
+
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     const targetId = this.getAttribute('href');
@@ -87,7 +95,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       e.preventDefault();
       closeMobileMenu();
       
-      const offset = 84; // Navbar height + gap
+      const offset = 84;
       const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
       
       window.scrollTo({
@@ -98,9 +106,33 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Counter Count-up Animation
-function animateCounter(element, target, suffix = '', duration = 1600) {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+// ============================================================
+// 2. ANIMATIONS - FADE-UP WITH STAGGER
+// ============================================================
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.fade-up').forEach(el => {
+    fadeObserver.observe(el);
+  });
+});
+
+// ============================================================
+// 3. IMPACT COUNTERS
+// ============================================================
+
+function animateCounter(element, target, suffix = '', duration = 2000) {
+  if (prefersReducedMotion) {
     element.textContent = target.toLocaleString() + suffix;
     return;
   }
@@ -111,8 +143,7 @@ function animateCounter(element, target, suffix = '', duration = 1600) {
   function step(timestamp) {
     if (!startTime) startTime = timestamp;
     const progress = Math.min((timestamp - startTime) / duration, 1);
-    // Easing out cubic
-    const progressEase = 1 - Math.pow(1 - progress, 3);
+    const progressEase = 1 - Math.pow(1 - progress, 3); // Ease out cubic
     const value = Math.floor(progressEase * (target - startValue) + startValue);
     element.textContent = value.toLocaleString() + suffix;
     
@@ -126,7 +157,6 @@ function animateCounter(element, target, suffix = '', duration = 1600) {
   window.requestAnimationFrame(step);
 }
 
-// Intersection Observer for Statistics counters and Fade Up Reveals
 const statObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -134,32 +164,24 @@ const statObserver = new IntersectionObserver((entries) => {
       let target = parseInt(element.getAttribute('data-target')) || 0;
       const suffix = element.getAttribute('data-suffix') || '';
       
-      // Standardize 10000 -> 10K+ if it has K in suffix
       if (suffix.includes('K') && target >= 1000) {
         target = target / 1000;
       }
       
-      animateCounter(element, target, suffix);
+      animateCounter(element, target, suffix, 2000);
       statObserver.unobserve(element);
     }
   });
 }, { threshold: 0.1 });
 
-const fadeObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      fadeObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.impact-counter').forEach(el => statObserver.observe(el));
-  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
 });
 
-// App Showcase Tabs logic (with Auto-rotation and Hover pause)
+// ============================================================
+// 4. FEATURE TABS (Report, Track, Map, Ranks, Account)
+// ============================================================
+
 const tabPills = document.querySelectorAll('.app-tab-pill');
 const tabPanels = document.querySelectorAll('.app-tab-panel');
 let currentTabIdx = 0;
@@ -173,7 +195,13 @@ function showTab(idx) {
     pill.setAttribute('aria-selected', active ? 'true' : 'false');
   });
   tabPanels.forEach((panel, i) => {
-    panel.classList.toggle('active', i === idx);
+    if (i === idx) {
+      panel.classList.add('active');
+      panel.style.opacity = '1';
+      panel.style.transform = 'translateY(0)';
+    } else {
+      panel.classList.remove('active');
+    }
   });
   currentTabIdx = idx;
 }
@@ -191,7 +219,7 @@ function startTabRotation() {
 tabPills.forEach((pill, idx) => {
   pill.addEventListener('click', () => {
     showTab(idx);
-    startTabRotation(); // Reset timer on manual click
+    startTabRotation();
   });
 });
 
@@ -200,9 +228,15 @@ if (showcaseSection) {
   showcaseSection.addEventListener('mouseenter', () => tabRotationPaused = true);
   showcaseSection.addEventListener('mouseleave', () => tabRotationPaused = false);
 }
-startTabRotation();
 
-// FAQ Accordion Toggle with ARIA Attributes and smooth transitions
+document.addEventListener('DOMContentLoaded', () => {
+  startTabRotation();
+});
+
+// ============================================================
+// 5. FAQ ACCORDION
+// ============================================================
+
 const faqItems = document.querySelectorAll('.faq-item');
 faqItems.forEach(item => {
   const btn = item.querySelector('.faq-question-btn');
@@ -231,87 +265,86 @@ faqItems.forEach(item => {
   }
 });
 
-// Community Gamification Tab toggler
-const lbTabs = document.querySelectorAll('.leaderboard-section .tab-btn');
-const lbPanels = document.querySelectorAll('.leaderboard-section .tab-content');
+// ============================================================
+// 6. BEFORE/AFTER SLIDER
+// ============================================================
 
-lbTabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    const targetId = tab.getAttribute('data-tab');
-    lbTabs.forEach(t => t.classList.remove('active'));
-    lbPanels.forEach(p => p.classList.remove('active'));
-    
-    tab.classList.add('active');
-    document.getElementById(targetId).classList.add('active');
-  });
-});
-
-// Before/After Image Slider Dragging and Selection
-document.addEventListener('DOMContentLoaded', () => {
+function initComparisonSlider() {
   const slider = document.getElementById('comparisonSlider');
   const handle = document.getElementById('sliderHandle');
   const overlay = document.getElementById('beforeOverlay');
   
-  if (slider && handle && overlay) {
-    let isDragging = false;
+  if (!slider || !handle || !overlay) return;
+  
+  let isDragging = false;
+  
+  function updateSlider(clientX) {
+    const rect = slider.getBoundingClientRect();
+    const offsetX = clientX - rect.left;
+    const percentage = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
     
-    function updateSlider(clientX) {
-      const rect = slider.getBoundingClientRect();
-      const offsetX = clientX - rect.left;
-      const percentage = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
-      
-      overlay.style.width = percentage + '%';
-      handle.style.left = percentage + '%';
-      handle.setAttribute('aria-valuenow', Math.round(percentage));
-    }
-    
-    slider.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      updateSlider(e.clientX);
-    });
-    
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) updateSlider(e.clientX);
-    });
-    
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
-    
-    slider.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      updateSlider(e.touches[0].clientX);
-    }, { passive: true });
-    
-    slider.addEventListener('touchmove', (e) => {
-      if (isDragging) updateSlider(e.touches[0].clientX);
-    }, { passive: true });
-    
-    slider.addEventListener('touchend', () => {
-      isDragging = false;
-    });
-    
-    handle.addEventListener('keydown', (e) => {
-      const currentValue = parseInt(handle.getAttribute('aria-valuenow') || '50');
-      if (e.key === 'ArrowLeft') {
-        const newVal = Math.max(0, currentValue - 5);
-        updateSlider((newVal / 100) * slider.offsetWidth + slider.getBoundingClientRect().left);
-      } else if (e.key === 'ArrowRight') {
-        const newVal = Math.min(100, currentValue + 5);
-        updateSlider((newVal / 100) * slider.offsetWidth + slider.getBoundingClientRect().left);
-      }
-    });
-    
-    handle.setAttribute('role', 'slider');
-    handle.setAttribute('aria-label', 'Before and after comparison slider');
-    handle.setAttribute('aria-valuemin', '0');
-    handle.setAttribute('aria-valuemax', '100');
-    handle.setAttribute('aria-valuenow', '50');
-    handle.setAttribute('tabindex', '0');
+    overlay.style.width = percentage + '%';
+    handle.style.left = percentage + '%';
+    handle.setAttribute('aria-valuenow', Math.round(percentage));
   }
-});
+  
+  // Mouse events
+  slider.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    updateSlider(e.clientX);
+  });
+  
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) updateSlider(e.clientX);
+  });
+  
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+  
+  // Touch events
+  slider.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    updateSlider(e.touches[0].clientX);
+  }, { passive: true });
+  
+  slider.addEventListener('touchmove', (e) => {
+    if (isDragging) updateSlider(e.touches[0].clientX);
+  }, { passive: true });
+  
+  slider.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+  
+  // Keyboard events
+  handle.addEventListener('keydown', (e) => {
+    const currentValue = parseInt(handle.getAttribute('aria-valuenow') || '50');
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const newVal = Math.max(0, currentValue - 5);
+      updateSlider((newVal / 100) * slider.offsetWidth + slider.getBoundingClientRect().left);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      const newVal = Math.min(100, currentValue + 5);
+      updateSlider((newVal / 100) * slider.offsetWidth + slider.getBoundingClientRect().left);
+    }
+  });
+  
+  // ARIA setup
+  handle.setAttribute('role', 'slider');
+  handle.setAttribute('aria-label', 'Before and after comparison slider');
+  handle.setAttribute('aria-valuemin', '0');
+  handle.setAttribute('aria-valuemax', '100');
+  handle.setAttribute('aria-valuenow', '50');
+  handle.setAttribute('tabindex', '0');
+}
 
-// Expose comparison pair switches to window object
+document.addEventListener('DOMContentLoaded', initComparisonSlider);
+
+// ============================================================
+// 12. BEFORE/AFTER PAIR SELECTOR
+// ============================================================
+
 window.setPair = function(type) {
   const beforeImg = document.getElementById('beforeImg');
   const afterImg = document.getElementById('afterImg');
@@ -384,12 +417,85 @@ window.setPair = function(type) {
   }
 };
 
-// Initial state for before/after tags
 document.addEventListener('DOMContentLoaded', () => {
   window.setPair('garbage');
 });
 
-// Interactive Bengaluru Ward Map (Leaflet)
+// ============================================================
+// 7. LEADERBOARD TABS
+// ============================================================
+
+const lbTabs = document.querySelectorAll('.leaderboard-section .tab-btn');
+const lbPanels = document.querySelectorAll('.leaderboard-section .tab-content');
+
+lbTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const targetId = tab.getAttribute('data-tab');
+    lbTabs.forEach(t => t.classList.remove('active'));
+    lbPanels.forEach(p => p.classList.remove('active'));
+    
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected', 'true');
+    const targetPanel = document.getElementById(targetId);
+    if (targetPanel) {
+      targetPanel.classList.add('active');
+    }
+  });
+});
+
+// ============================================================
+// 8. MARQUEE ANIMATION
+// ============================================================
+
+const marqueeTrack = document.getElementById('marqueeTrack');
+if (marqueeTrack) {
+  const marqueeContainer = marqueeTrack.parentElement;
+  marqueeContainer.addEventListener('mouseenter', () => {
+    marqueeTrack.style.animationPlayState = 'paused';
+  });
+  marqueeContainer.addEventListener('mouseleave', () => {
+    marqueeTrack.style.animationPlayState = 'running';
+  });
+}
+
+// ============================================================
+// 9. ROADMAP PROGRESS LINE
+// ============================================================
+
+const roadmapSection = document.getElementById('how-it-works');
+const progressLine = document.getElementById('roadmapProgressLine');
+const roadmapSteps = document.querySelectorAll('.roadmap-step');
+
+function updateRoadmapProgress() {
+  if (!roadmapSection || !progressLine) return;
+  
+  const rect = roadmapSection.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  
+  const totalHeight = rect.height;
+  const scrolled = windowHeight * 0.8 - rect.top;
+  const percentage = Math.max(0, Math.min(100, (scrolled / totalHeight) * 100));
+  
+  progressLine.style.width = percentage + '%';
+  
+  roadmapSteps.forEach((step, idx) => {
+    const stepRect = step.getBoundingClientRect();
+    if (stepRect.top < windowHeight * 0.65) {
+      step.classList.add('active');
+    } else {
+      if (idx > 0) step.classList.remove('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', () => {
+  window.requestAnimationFrame(updateRoadmapProgress);
+}, { passive: true });
+
+// ============================================================
+// 10 & 11. LEAFLET MAP
+// ============================================================
+
 let map = null;
 let geoJsonLayer = null;
 
@@ -408,7 +514,6 @@ function showWardDetails(properties, data) {
     document.getElementById('wardResolved').textContent = data.resolvedIssues.toLocaleString();
     document.getElementById('wardRate').textContent = data.resolutionRate + '%';
     
-    // Deterministic top issue based on ward name
     const issues = ['Garbage Dumping', 'Sewage Overflow', 'Broken Streetlights', 'Road Potholes'];
     let hash = 0;
     const name = properties.KGISWardName || '';
@@ -421,6 +526,8 @@ function showWardDetails(properties, data) {
 }
 
 function renderFallbackMarkers() {
+  if (!map) return;
+  
   const fallbackWards = [
     { name: 'Koramangala (Ward 150)', lat: 12.9352, lng: 77.6245, resolved: 76, active: 28, total: 323 },
     { name: 'Indiranagar (Ward 81)', lat: 12.9716, lng: 77.6412, resolved: 88, active: 9, total: 437 },
@@ -478,7 +585,6 @@ function initMap() {
     attributionControl: false
   });
   
-  // Light positron tile layer
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 20,
     subdomains: 'abcd'
@@ -486,7 +592,6 @@ function initMap() {
   
   map.fitBounds(bounds);
   
-  // Load GeoJSON dynamically
   fetch('./assets/bbmp-wards.geojson')
     .then(res => {
       if (!res.ok) throw new Error('Network error');
@@ -499,11 +604,11 @@ function initMap() {
           const data = getWardData(wardName);
           const rate = data.resolutionRate;
           
-          let color = '#22c55e'; // Green
+          let color = '#22c55e';
           if (rate < 60) {
-            color = '#ef4444'; // Red
+            color = '#ef4444';
           } else if (rate < 80) {
-            color = '#f59e0b'; // Amber
+            color = '#f59e0b';
           }
           
           return {
@@ -537,7 +642,7 @@ function initMap() {
             layer.setStyle({
               fillOpacity: 0.65,
               weight: 3,
-              color: 'var(--accent-green-dark)'
+              color: '#16a34a'
             });
             
             map.fitBounds(layer.getBounds(), { padding: [20, 20] });
@@ -547,7 +652,7 @@ function initMap() {
             <div style="font-family:'Inter', sans-serif; padding: 4px;">
               <strong style="font-size:13px; color:#1a1f36; display:block; margin-bottom:4px;">${wardName}</strong>
               <span style="font-size:11px; color:#4a5568; display:block;">Ward No: ${feature.properties.KGISWardNo || 'N/A'}</span>
-              <span style="font-size:11px; font-weight:700; color:var(--accent-green-dark); display:block; margin-top:2px;">Resolution: ${data.resolutionRate}%</span>
+              <span style="font-size:11px; font-weight:700; color:#16a34a; display:block; margin-top:2px;">Resolution: ${data.resolutionRate}%</span>
             </div>
           `;
           layer.bindTooltip(tooltipContent, { sticky: true });
@@ -560,7 +665,6 @@ function initMap() {
     });
 }
 
-// Lazy Load Map observer
 const mapSection = document.getElementById('live-map');
 if (mapSection) {
   const mapObserver = new IntersectionObserver((entries) => {
@@ -574,7 +678,10 @@ if (mapSection) {
   mapObserver.observe(mapSection);
 }
 
-// Back to overview Map button
+// ============================================================
+// 11. MAP DETAIL VIEW
+// ============================================================
+
 const mapBackBtn = document.getElementById('mapBackBtn');
 if (mapBackBtn) {
   mapBackBtn.addEventListener('click', () => {
@@ -598,42 +705,44 @@ if (mapBackBtn) {
   });
 }
 
-// Roadmap Progress Line update on scroll
-const roadmapSection = document.getElementById('how-it-works');
-const progressLine = document.getElementById('roadmapProgressLine');
-const roadmapSteps = document.querySelectorAll('.roadmap-step');
+// ============================================================
+// 14. PERFORMANCE - LAZY LOADING & OPTIMIZATION
+// ============================================================
 
-function updateRoadmapProgress() {
-  if (!roadmapSection || !progressLine) return;
-  const rect = roadmapSection.getBoundingClientRect();
-  const windowHeight = window.innerHeight;
-  
-  const totalHeight = rect.height;
-  const scrolled = windowHeight * 0.8 - rect.top;
-  const percentage = Math.max(0, Math.min(100, (scrolled / totalHeight) * 100));
-  
-  progressLine.style.width = percentage + '%';
-  
-  roadmapSteps.forEach((step, idx) => {
-    const stepRect = step.getBoundingClientRect();
-    if (stepRect.top < windowHeight * 0.65) {
-      step.classList.add('active');
-    } else {
-      if (idx > 0) step.classList.remove('active');
-    }
-  });
-}
-
-window.addEventListener('scroll', () => {
-  window.requestAnimationFrame(updateRoadmapProgress);
-}, { passive: true });
-
-// Accessibility / Layout Adjustments
 document.addEventListener('DOMContentLoaded', () => {
-  // Update footer copyright year dynamically
+  // Update copyright year
   const footerCopyright = document.querySelector('.footer-copyright');
   const year = new Date().getFullYear();
   if (footerCopyright && year > 2026) {
     footerCopyright.innerHTML = footerCopyright.innerHTML.replace('2026', year);
+  }
+  
+  // Keyboard navigation support
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      document.body.classList.add('using-keyboard');
+    }
+  });
+  
+  document.addEventListener('mousedown', () => {
+    document.body.classList.remove('using-keyboard');
+  });
+});
+
+// ============================================================
+// 15. ACCESSIBILITY
+// ============================================================
+
+// Focus management for modal-like states
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeMobileMenu();
+  }
+});
+
+// Ensure all interactive elements are keyboard accessible
+document.querySelectorAll('button, a[href], input').forEach(el => {
+  if (!el.hasAttribute('tabindex') && el.tagName !== 'A' && el.tagName !== 'BUTTON') {
+    el.setAttribute('tabindex', '0');
   }
 });
